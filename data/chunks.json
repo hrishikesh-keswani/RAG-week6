@@ -1,0 +1,605 @@
+{
+  "chunk_count": 30,
+  "chunks": [
+    {
+      "id": "Carbon_New_2040::Carbon Reduction Plan / Baseline Emissions Footprint::0",
+      "parent_id": "Carbon_New_2040::Carbon Reduction Plan / Baseline Emissions Footprint",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_New_2040 > Carbon Reduction Plan]\n**Version 2.0**\n\nSupplier name: Coforge Limited & All International Locations (including Coforge U.K Limited)\n\nPublication date: 10 October 2025\n\n[Carbon_New_2040 > Commitment to Achieving Net Zero]\nCoforge Limited and other Global Business Operations, including Coforge U.K. Limited are committed\nto achieve Net Zero emission by 2040. Coforge U.K. Limited is a wholly owned subsidiary of Coforge\nLimited.\n\n[Carbon_New_2040 > Baseline Emissions Footprint]\nBaseline emissions are a record of the greenhouse gases that have been produced in the past and\nwere produced prior to the introduction of any strategies to reduce emissions. Baseline emissions are\nthe reference point against which emissions reduction can be measured.\n\n|Baseline Year: 2023–2024 (India operations)|Col2|\n|---|---|\n|**Additional details relating to the baseline emissions calculations**<br>|**Additional details relating to the baseline emissions calculations**<br>|\n|~~The baseline emission calculations were done for our operations in India which is the most~~<br>signifcant part of the business. We have already taken signifcant initiatives to reduce the carbon<br>footprint and continue the process.|~~The baseline emission calculations were done for our operations in India which is the most~~<br>signifcant part of the business. We have already taken signifcant initiatives to reduce the carbon<br>footprint and continue the process.|\n|**Baseline year emissions – Total (tCO2e) – FY24**<br><br>|**Baseline year emissions – Total (tCO2e) – FY24**<br><br>|\n|~~**EMISSIONS**~~<br>|~~**India**~~<br>|\n|~~Scope 1~~ <br>|~~413~~ <br>|\n|~~Scope 2~~ <br>|~~8,688~~ <br>|\n|~~Scope 3~~ <br>|~~5,543~~ <br>|\n|~~**Total emissions**~~<br>|~~**14,644**~~|",
+      "document_name": "Carbon_New_2040",
+      "section": "Carbon Reduction Plan / Baseline Emissions Footprint",
+      "chunk_index": 0,
+      "word_count": 225,
+      "metadata": {
+        "filename": "Carbon_New_2040.md",
+        "pagenumber": 1,
+        "section_name": "Carbon Reduction Plan / Baseline Emissions Footprint",
+        "chunkid": "Carbon_New_2040::Carbon Reduction Plan / Baseline Emissions Footprint::0",
+        "start_span": 46,
+        "end_span": 1740,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Carbon_New_2040::Baseline Emissions Footprint::0",
+      "parent_id": "Carbon_New_2040::Baseline Emissions Footprint",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_New_2040 > Baseline Emissions Footprint]\n|Baseline Year: 2023–2024 (UK operations)|Col2|\n|---|---|\n|~~**Additional details relating to the baseline emissions calculations**~~<br>|~~**Additional details relating to the baseline emissions calculations**~~<br>|\n|~~Coforge is committed to demonstrate strong green credentials and achieve net zero emissions in~~<br>years to come. In comparison to India operations, international business operations are smaller, and<br>headcount is signifcantly lower.<br>To support our carbon footprint management journey, we have partnered with \"Carbon Footprint\"<br>who have comprehensive experience in this area. From 2022, all international business operations<br>(outside India) are included in carbon emissions assessment calculations. The baseline assessment<br>undertaken follows the principles outlined by the Greenhouse Gas Protocol and the UK<br>Government's Guidelines on Greenhouse Gas reporting.|~~Coforge is committed to demonstrate strong green credentials and achieve net zero emissions in~~<br>years to come. In comparison to India operations, international business operations are smaller, and<br>headcount is signifcantly lower.<br>To support our carbon footprint management journey, we have partnered with \"Carbon Footprint\"<br>who have comprehensive experience in this area. From 2022, all international business operations<br>(outside India) are included in carbon emissions assessment calculations. The baseline assessment<br>undertaken follows the principles outlined by the Greenhouse Gas Protocol and the UK<br>Government's Guidelines on Greenhouse Gas reporting.|\n|**Baseline year emissions: FY24 Total (tCO2e) **<br><br>|**Baseline year emissions: FY24 Total (tCO2e) **<br><br>|\n|~~**EMISSIONS**~~<br>|~~**UK**~~<br>|\n|~~Scope 1~~ <br>|~~0*~~<br>|\n|~~Scope 2~~ <br>|~~22.38~~<br>|\n|~~Scope 3~~ <br>|~~892.00~~<br>|\n|~~**Total emissions**~~|~~**914.38**~~|\n\n_*There is no Scope 1 (Direct) emission in the UK as no offices in these locations use natural gas, oil, LPG or have_\n_any owned vehicles._",
+      "document_name": "Carbon_New_2040",
+      "section": "Baseline Emissions Footprint",
+      "chunk_index": 1,
+      "word_count": 240,
+      "metadata": {
+        "filename": "Carbon_New_2040.md",
+        "pagenumber": 1,
+        "section_name": "Baseline Emissions Footprint",
+        "chunkid": "Carbon_New_2040::Baseline Emissions Footprint::0",
+        "start_span": 1743,
+        "end_span": 3760,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Carbon_New_2040::Current year emissions: FY25::0",
+      "parent_id": "Carbon_New_2040::Current year emissions: FY25",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_New_2040 > Current year emissions: FY25]\n|Reporting Year: 1 April 2024 – 31 March 2025|Col2|Col3|\n|---|---|---|\n|**Current year emissions – Total (tCO2e)**<br><br><br>|**Current year emissions – Total (tCO2e)**<br><br><br>|**Current year emissions – Total (tCO2e)**<br><br><br>|\n|~~**EMISSIONS**~~<br>|~~**India**~~<br>|~~**UK**~~<br>|\n|~~Scope 1~~ <br>|~~1,265~~<br>|~~0*~~<br>|\n|~~Scope 2~~ <br>|~~6,344~~<br>|~~2.90~~<br>|\n|~~Scope 3~~ <br>|~~29,836~~<br>|~~850.05~~<br>|\n|~~**Total emissions**~~|~~**37,445**~~|~~**852.95**~~|\n\n- _There is no Scope 1 (Direct) related emission in the UK as no offices in these locations use natural gas, oil, LPG_\n_or have any owned vehicles. Only potential source of emission is backup diesel generators. However, we reported_\n_no emissions as they have not been used. India has approximately 20,000 people across multiple campuses and_\n_constitutes lion’s share of our employees and therefore, is the biggest emissions contributor._",
+      "document_name": "Carbon_New_2040",
+      "section": "Current year emissions: FY25",
+      "chunk_index": 2,
+      "word_count": 114,
+      "metadata": {
+        "filename": "Carbon_New_2040.md",
+        "pagenumber": 2,
+        "section_name": "Current year emissions: FY25",
+        "chunkid": "Carbon_New_2040::Current year emissions: FY25::0",
+        "start_span": 3813,
+        "end_span": 4745,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Carbon_New_2040::Emissions Reduction Targets::0",
+      "parent_id": "Carbon_New_2040::Emissions Reduction Targets",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_New_2040 > Emissions Reduction Targets]\nCoforge is a fast-growing IT services firm, and the business has grown over 100% in the past 4 years.\nThe growth in the business has led to an increase in headcount and operations across the globe. As an\norganisation, we acknowledge that this could lead to increase in absolute emissions, directly\nproportionate to the increase in headcount and business operations. However, as an organisation, we\nare committed to assessing our carbon emissions and target to have zero carbon emissions by 2040.\nWe aim to achieve our target by taking active steps through carbon sequestration and use of renewable\nenergy technologies, such as solar.\n\n**India location** – Since FY24, when the baseline emissions were assessed, there has been a\ncontinuous focus on emission reduction and focused interventions to ensure that the scope of\nemissions is controlled despite the growth of our business operations. Several of our pilot carbon\nreduction initiatives were conducted in our India operations.\n\n**International locations (including the UK) –** In 2022, we conducted emission assessment for all\ninternational business operations, including the UK. We are looking to undertake multiple initiatives to\ncontrol these emissions, such as reducing the need for air-travel where possible, given that it is a\nsignificant contributor to our emissions for international locations. We are continually assessing our\noperations for consolidation of resources to reduce the negative impact on the environment.",
+      "document_name": "Carbon_New_2040",
+      "section": "Emissions Reduction Targets",
+      "chunk_index": 3,
+      "word_count": 231,
+      "metadata": {
+        "filename": "Carbon_New_2040.md",
+        "pagenumber": 2,
+        "section_name": "Emissions Reduction Targets",
+        "chunkid": "Carbon_New_2040::Emissions Reduction Targets::0",
+        "start_span": 4781,
+        "end_span": 6265,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Carbon_New_2040::Carbon Reduction Initiatives::0",
+      "parent_id": "Carbon_New_2040::Carbon Reduction Initiatives",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_New_2040 > Carbon Reduction Initiatives]\nIn alignment with our goal to be “net-zero by 2040”, we have undertaken the following initiatives and\nare actively integrating carbon reduction plans in our global operations:\n\n1.\nCoforge has obtained certain global certifications that allow us to reduce our overall carbon\n\nemissions across our operations:\n\n- Environment, Health, and Safety Management System has been implemented in\nconformance to ISO 14001:2015 and ISO 45001:2018 standards.\n\n- Coforge owns USGBC (US Green Building Council)-rated Platinum green campuses.\n2. We are committed to the utilization of clean fuel and a transition to renewable energy in our\n\noperations. This covers a wide variety of our operations, including transportation, cafeteria\noperations and electricity consumption.\n\n- 100% conversion of company cabs and buses to Compressed Natural Gas (CNG).\n\nIntroduce electric vehicle fleets (for employees’ transport system) and target 10%\nintegration by 2028 and ~50% by 2032.\n\n- 100% utilization of Piped Natural Gas (PNG) in cafeteria operations.\n\n- Procure 10% green energy, contributing to total energy consumption by 2025 and\nachieve ~ 50% by 2030.\n\n- Support transition to 100% renewable energy by 2040 by committing to the RE100\nglobal initiative. Through this, we pledge to have 100% of our electricity sourced from\nrenewable sources.\n\n- Engage in community programs to generate renewable energy.\n3. Coforge has also committed to interventions with relation to sustainable building and energy\n\nmanagement initiatives in our operations. We have undertaken several pilot initiatives at our\nmain campus in India, including the following:\n\n- Passive solar architecture for provision of natural day lighting in the building.\n\nUse of double-glazed, high efficiency reflective glass to reduce the solar heat gain by\n8% to 10%.\n\n- Rooftop solar energy generation system of 75 KWp and solar-based external area\nlighting systems to reduce the consumption of power grid.\n\nSensor-based lighting system to optimize energy efficiency.\n\nUse of low embodied building material in construction, i.e., fly ash bricks, to reduce\nthe overall carbon footprint of the building.\n\n- Use of LEDs as replacement of T-5 and LCDs to reduce electricity consumption.\n\n- Solar water heating system in cafeteria.\n4. We aim to improve employee engagement and awareness on sustainability and energy\n\nefficiency. We are taking the following steps for the same:\n\n- Conduct one mandatory and two voluntary training sessions annually for all employees to\nfoster a culture of sustainability.\n\n- Empower employees with knowledge and skills to implement energy-saving practices and\nreduce carbon footprint through education and incentive programs.\n\nCoforge has already implemented several of these carbon reduction initiatives at our India locations\nand is actively integrating these in our UK operations as well. In addition to the above initiatives, at UK\npremise, Coforge adheres with Waste Electrical and Electronic Equipment (WEEE) compliance\nstandards, which ensures that Coforge responsibly manages electronic waste, promotes recycling,\nand follows proper disposal methods for electronic equipment, thus reducing its carbon footprint and\nenvironmental impact.",
+      "document_name": "Carbon_New_2040",
+      "section": "Carbon Reduction Initiatives",
+      "chunk_index": 4,
+      "word_count": 482,
+      "metadata": {
+        "filename": "Carbon_New_2040.md",
+        "pagenumber": 2,
+        "section_name": "Carbon Reduction Initiatives",
+        "chunkid": "Carbon_New_2040::Carbon Reduction Initiatives::0",
+        "start_span": 6303,
+        "end_span": 9627,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Carbon_New_2040::Declaration and Sign Off::0",
+      "parent_id": "Carbon_New_2040::Declaration and Sign Off",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_New_2040 > Declaration and Sign Off]\nThis Carbon Reduction Plan has been completed in accordance with PPN 06/21 and associated\nguidance and reporting standard for Carbon Reduction Plans. Emissions have been reported and\nrecorded in accordance with the published reporting standard for Carbon Reduction Plans and the\nGHG Reporting Protocol corporate standard and uses the appropriate Government emission\nconversion factors for greenhouse gas company reporting.\n\nScope 1 and Scope 2 emissions have been reported in accordance with SECR requirements, and the\nrequired subset of Scope 3 emissions have been reported in accordance with the published reporting\nstandard for Carbon Reduction Plans and the Corporate Value Chain (Scope 3) Standard.\n\nThis Carbon Reduction Plan has been reviewed and signed off by the board of directors (or equivalent\nmanagement body).\n\n[Carbon_New_2040 > Signed on behalf of the Supplier]\n**John Speight**\n\nPresident and Head of Europe (EVP)",
+      "document_name": "Carbon_New_2040",
+      "section": "Declaration and Sign Off",
+      "chunk_index": 5,
+      "word_count": 144,
+      "metadata": {
+        "filename": "Carbon_New_2040.md",
+        "pagenumber": 3,
+        "section_name": "Declaration and Sign Off",
+        "chunkid": "Carbon_New_2040::Declaration and Sign Off::0",
+        "start_span": 9661,
+        "end_span": 10581,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Carbon_Old_2050::Introduction::0",
+      "parent_id": "Carbon_Old_2050::Introduction",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_Old_2050 > Introduction]\n**SUPERSEDED | Carbon Reduction Plan v1.0 | 12 March 2023 | Net Zero target in this copy: 2050**\n\n**DOCUMENT STATUS: SUPERSEDED  |  Version 1.0  |  Effective 12 March 2023  |  Replaced by Carbon**\n\n[Carbon_Old_2050 > Carbon Reduction Plan (v1.0, superseded)]\n**Supplier name:** Coforge Limited & All International Locations (including Coforge U.K Limited)\n\n**Publication date:** 12 March 2023\n\n**Document ID:** CARBON-POL-2023-V1.0\n\n_This version remains in the policy archive. A later plan was issued in October 2025. Do not treat this copy as_\n\n_the current commitment unless a later document is unavailable._\n\n[Carbon_Old_2050 > Commitment to Achieving Net Zero]\nCoforge Limited and other Global Business Operations, including Coforge U.K. Limited are committed to\nachieve Net Zero emission **by 2050** . Coforge U.K. Limited is a wholly owned subsidiary of Coforge Limited.\n\n[Carbon_Old_2050 > Baseline Emissions Footprint]\nBaseline emissions are a record of the greenhouse gases that have been produced in the past and were\nproduced prior to the introduction of any strategies to reduce emissions. Baseline emissions are the\nreference point against which emissions reduction can be measured.\n\n[Carbon_Old_2050 > Baseline Year: 2023–2024 (India operations)]\nThe baseline emission calculations were done for our operations in India which is the most significant part of\nthe business. We have already taken significant initiatives to reduce the carbon footprint and continue the\n\nprocess.\n\nBaseline year emissions – Total (tCO2e) – FY24\n\n|EMISSIONS|India|\n|---|---|\n|Scope 1|413|\n|Scope 2|8,688|\n|Scope 3|5,543|\n|Total emissions|14,644|",
+      "document_name": "Carbon_Old_2050",
+      "section": "Introduction",
+      "chunk_index": 0,
+      "word_count": 239,
+      "metadata": {
+        "filename": "Carbon_Old_2050.md",
+        "pagenumber": 1,
+        "section_name": "Introduction",
+        "chunkid": "Carbon_Old_2050::Introduction::0",
+        "start_span": 17,
+        "end_span": 1654,
+        "version": "1"
+      }
+    },
+    {
+      "id": "Carbon_Old_2050::Baseline Year: 2023–2024 (UK operations)::0",
+      "parent_id": "Carbon_Old_2050::Baseline Year: 2023–2024 (UK operations)",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_Old_2050 > Baseline Year: 2023–2024 (UK operations)]\nCoforge is committed to demonstrate strong green credentials and achieve net zero emissions in years to\ncome. In comparison to India operations, international business operations are smaller, and headcount is\nsignificantly lower.\n\nTo support our carbon footprint management journey, we have partnered with \"Carbon Footprint\" who have\ncomprehensive experience in this area. From 2022, all international business operations (outside India) are\n\nincluded in carbon emissions assessment calculations. The baseline assessment undertaken follows the\n\nprinciples outlined by the Greenhouse Gas Protocol and the UK Government's Guidelines on Greenhouse\nGas reporting.\n\nBaseline year emissions: FY24 Total (tCO2e)\n\n|EMISSIONS|UK|\n|---|---|\n|Scope 1|0*|\n|Scope 2|22.38|\n\nCoforge Limited | CARBON-POL-2023-V1.0 Page 1\n\n**SUPERSEDED | Carbon Reduction Plan v1.0 | 12 March 2023 | Net Zero target in this copy: 2050**\n\n|Scope 3|892.00|\n|---|---|\n|Total emissions|914.38|\n\n*There is no Scope 1 (Direct) emission in the UK as no offices in these locations use natural gas, oil, LPG or\nhave any owned vehicles.\n\n[Carbon_Old_2050 > Current year emissions: FY25]\nReporting Year: 1 April 2024 – 31 March 2025\n\n|EMISSIONS|India|UK|\n|---|---|---|\n|Scope 1|1,265|0*|\n|Scope 2|6,344|2.90|\n|Scope 3|29,836|850.05|\n|Total emissions|37,445|852.95|\n\n*There is no Scope 1 (Direct) related emission in the UK as no offices in these locations use natural gas, oil,\nLPG or have any owned vehicles. Only potential source of emission is backup diesel generators. However,\nwe reported no emissions as they have not been used. India has approximately 20,000 people across\nmultiple campuses and constitutes lion’s share of our employees and therefore, is the biggest emissions\n\ncontributor.",
+      "document_name": "Carbon_Old_2050",
+      "section": "Baseline Year: 2023–2024 (UK operations)",
+      "chunk_index": 1,
+      "word_count": 257,
+      "metadata": {
+        "filename": "Carbon_Old_2050.md",
+        "pagenumber": 1,
+        "section_name": "Baseline Year: 2023–2024 (UK operations)",
+        "chunkid": "Carbon_Old_2050::Baseline Year: 2023–2024 (UK operations)::0",
+        "start_span": 1705,
+        "end_span": 3473,
+        "version": "1"
+      }
+    },
+    {
+      "id": "Carbon_Old_2050::Emissions Reduction Targets::0",
+      "parent_id": "Carbon_Old_2050::Emissions Reduction Targets",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_Old_2050 > Emissions Reduction Targets]\nCoforge is a fast-growing IT services firm, and the business has grown over 100% in the past 4 years. The\ngrowth in the business has led to an increase in headcount and operations across the globe. As an\norganisation, we acknowledge that this could lead to increase in absolute emissions, directly proportionate to\nthe increase in headcount and business operations. However, as an organisation, we are committed to\nassessing our carbon emissions and target to have zero carbon emissions **by 2050** .\n\nWe aim to achieve our target by taking active steps through carbon sequestration and use of renewable\nenergy technologies, such as solar.\n\n**India location** – Since FY24, when the baseline emissions were assessed, there has been a continuous\nfocus on emission reduction and focused interventions to ensure that the scope of emissions is controlled\ndespite the growth of our business operations. Several of our pilot carbon reduction initiatives were\nconducted in our India operations.\n\n**International locations (including the UK)** – In 2022, we conducted emission assessment for all\ninternational business operations, including the UK. We are looking to undertake multiple initiatives to control\nthese emissions, such as reducing the need for air-travel where possible, given that it is a significant\ncontributor to our emissions for international locations. We are continually assessing our operations for\nconsolidation of resources to reduce the negative impact on the environment.",
+      "document_name": "Carbon_Old_2050",
+      "section": "Emissions Reduction Targets",
+      "chunk_index": 2,
+      "word_count": 232,
+      "metadata": {
+        "filename": "Carbon_Old_2050.md",
+        "pagenumber": 2,
+        "section_name": "Emissions Reduction Targets",
+        "chunkid": "Carbon_Old_2050::Emissions Reduction Targets::0",
+        "start_span": 3512,
+        "end_span": 5003,
+        "version": "1"
+      }
+    },
+    {
+      "id": "Carbon_Old_2050::Carbon Reduction Initiatives::0",
+      "parent_id": "Carbon_Old_2050::Carbon Reduction Initiatives",
+      "child_index": 0,
+      "next_id": "Carbon_Old_2050::Carbon Reduction Initiatives::1",
+      "text": "[Carbon_Old_2050 > Carbon Reduction Initiatives]\nIn alignment with our goal to be “net-zero by 2050”, we have undertaken the following initiatives and are\nactively integrating carbon reduction plans in our global operations:\n\n1. Coforge has obtained certain global certifications that allow us to reduce our overall carbon emissions\nacross our operations:\n\nCoforge Limited | CARBON-POL-2023-V1.0 Page 2\n\n**SUPERSEDED | Carbon Reduction Plan v1.0 | 12 March 2023 | Net Zero target in this copy: 2050**\n\n- Environment, Health, and Safety Management System has been implemented in conformance to ISO\n\n14001:2015 and ISO 45001:2018 standards.\n\n- Coforge owns USGBC (US Green Building Council)-rated Platinum green campuses.\n\n2. We are committed to the utilization of clean fuel and a transition to renewable energy in our operations.\nThis covers a wide variety of our operations, including transportation, cafeteria operations and electricity\nconsumption.\n\n- 100% conversion of company cabs and buses to Compressed Natural Gas (CNG).\n\n- Introduce electric vehicle fleets (for employees’ transport system) and target **5% integration by 2028**\n**and ~25% by 2032** .\n\n- 100% utilization of Piped Natural Gas (PNG) in cafeteria operations.\n\n- Procure **5% green energy**, contributing to total energy consumption **by 2025** and achieve **~25% by**\n\n**2030** .\n\n- Support transition to 100% renewable energy **by 2050** by committing to the RE100 global initiative.\nThrough this, we pledge to have 100% of our electricity sourced from renewable sources.\n\n- Engage in community programs to generate renewable energy.\n\n3. Coforge has also committed to interventions with relation to sustainable building and energy management\ninitiatives in our operations. We have undertaken several pilot initiatives at our main campus in India,\nincluding the following:\n\n- Passive solar architecture for provision of natural day lighting in the building.\n\n- Use of double-glazed, high efficiency reflective glass to reduce the solar heat gain by 8% to 10%.",
+      "document_name": "Carbon_Old_2050",
+      "section": "Carbon Reduction Initiatives",
+      "chunk_index": 3,
+      "word_count": 305,
+      "metadata": {
+        "filename": "Carbon_Old_2050.md",
+        "pagenumber": 2,
+        "section_name": "Carbon Reduction Initiatives",
+        "chunkid": "Carbon_Old_2050::Carbon Reduction Initiatives::0",
+        "start_span": 5043,
+        "end_span": 7084,
+        "version": "1"
+      }
+    },
+    {
+      "id": "Carbon_Old_2050::Carbon Reduction Initiatives::1",
+      "parent_id": "Carbon_Old_2050::Carbon Reduction Initiatives",
+      "child_index": 1,
+      "next_id": null,
+      "text": "[Carbon_Old_2050 > Carbon Reduction Initiatives]\n- Rooftop solar energy generation system of 75 KWp and solar-based external area lighting systems to\nreduce the consumption of power grid.\n\n- Sensor-based lighting system to optimize energy efficiency.\n\n- Use of low embodied building material in construction, i.e., fly ash bricks, to reduce the overall carbon\nfootprint of the building.\n\n- Use of LEDs as replacement of T-5 and LCDs to reduce electricity consumption.\n\n- Solar water heating system in cafeteria.\n\n4. We aim to improve employee engagement and awareness on sustainability and energy efficiency. We are\ntaking the following steps for the same:\n\n- Conduct one mandatory and two voluntary training sessions annually for all employees to foster a\nculture of sustainability.\n\n- Empower employees with knowledge and skills to implement energy-saving practices and reduce\ncarbon footprint through education and incentive programs.\n\nCoforge has already implemented several of these carbon reduction initiatives at our India locations and is\nactively integrating these in our UK operations as well. In addition to the above initiatives, at UK premise,\nCoforge adheres with Waste Electrical and Electronic Equipment (WEEE) compliance standards, which\nensures that Coforge responsibly manages electronic waste, promotes recycling, and follows proper disposal\nmethods for electronic equipment, thus reducing its carbon footprint and environmental impact.",
+      "document_name": "Carbon_Old_2050",
+      "section": "Carbon Reduction Initiatives",
+      "chunk_index": 4,
+      "word_count": 211,
+      "metadata": {
+        "filename": "Carbon_Old_2050.md",
+        "pagenumber": 3,
+        "section_name": "Carbon Reduction Initiatives",
+        "chunkid": "Carbon_Old_2050::Carbon Reduction Initiatives::1",
+        "start_span": 7087,
+        "end_span": 8519,
+        "version": "1"
+      }
+    },
+    {
+      "id": "Carbon_Old_2050::Declaration and Sign Off::0",
+      "parent_id": "Carbon_Old_2050::Declaration and Sign Off",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Carbon_Old_2050 > Declaration and Sign Off]\nThis Carbon Reduction Plan has been completed in accordance with PPN 06/21 and associated guidance\nand reporting standard for Carbon Reduction Plans. Emissions have been reported and recorded in\naccordance with the published reporting standard for Carbon Reduction Plans and the GHG Reporting\nProtocol corporate standard and uses the appropriate Government emission conversion factors for\ngreenhouse gas company reporting.\n\nCoforge Limited | CARBON-POL-2023-V1.0 Page 3\n\n**SUPERSEDED | Carbon Reduction Plan v1.0 | 12 March 2023 | Net Zero target in this copy: 2050**\n\nScope 1 and Scope 2 emissions have been reported in accordance with SECR requirements, and the\nrequired subset of Scope 3 emissions have been reported in accordance with the published reporting\nstandard for Carbon Reduction Plans and the Corporate Value Chain (Scope 3) Standard.\n\nThis Carbon Reduction Plan has been reviewed and signed off by the board of directors (or equivalent\nmanagement body).\n\n[Carbon_Old_2050 > Signed on behalf of the Supplier]\nJohn Speight\nPresident and Head of Europe (EVP)\n\nCoforge Limited | CARBON-POL-2023-V1.0 Page 4",
+      "document_name": "Carbon_Old_2050",
+      "section": "Declaration and Sign Off",
+      "chunk_index": 5,
+      "word_count": 174,
+      "metadata": {
+        "filename": "Carbon_Old_2050.md",
+        "pagenumber": 3,
+        "section_name": "Declaration and Sign Off",
+        "chunkid": "Carbon_Old_2050::Declaration and Sign Off::0",
+        "start_span": 8555,
+        "end_span": 9679,
+        "version": "1"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Environmental Sustainability Policy::0",
+      "parent_id": "Envi_2040-1::Environmental Sustainability Policy",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Environmental Sustainability Policy]\n**Review Date –** 10 [th] March 2026\n**Last Review** – 1 [st] April 2025\n\n© 2026 Coforge\n\n[Envi_2040-1 > Contents]\n© 2026 Coforge\n\n[Envi_2040-1 > Scope]\nTo foster sustainable business development, Coforge is committed to incorporate environmentally conscious practices\namongst all its employees, extended workforce as well as along the supply chain, to whatever extent possible.\n\nThis Policy will remain applicable to all facilities and locations of Coforge (rented/ leased or owned) and the\nemployees and other stakeholders associated with them.\n\nCoforge will also extend the applicability of this Policy across the value chain, to whatever extent possible. All thirdparty associates of Coforge, including suppliers, contractors, vendors, and affiliates, are expected and encouraged to\ncomply to this Policy.",
+      "document_name": "Envi_2040-1",
+      "section": "Environmental Sustainability Policy",
+      "chunk_index": 0,
+      "word_count": 123,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 1,
+        "section_name": "Environmental Sustainability Policy",
+        "chunkid": "Envi_2040-1::Environmental Sustainability Policy::0",
+        "start_span": 66,
+        "end_span": 2267,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Purpose::0",
+      "parent_id": "Envi_2040-1::Purpose",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Purpose]\nCoforge Limited (hereafter referred to as “Coforge”) is a global digital services and business solutions provider with\nin-depth domain expertise that specializes in selected industry verticals. The company strategy is rooted in providing\ncapability at scale with focus on emerging technologies, building partnerships, focusing on client centricity, and\ncreating a sustainable and responsible world. Acknowledging its impact and footprint on environment and natural\nresources, the company has developed its ‘Environmental Sustainability Policy’ to address the pressing issues of\nClimate Change and Environmental Management for Coforge and its value chain. The policy aims to build trust with\nstakeholders, increase operational efficiency, and ensure that all its services are environmentally sound and rendered\nin responsible manner.",
+      "document_name": "Envi_2040-1",
+      "section": "Purpose",
+      "chunk_index": 1,
+      "word_count": 117,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 3,
+        "section_name": "Purpose",
+        "chunkid": "Envi_2040-1::Purpose::0",
+        "start_span": 2286,
+        "end_span": 3118,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Policy commitment::0",
+      "parent_id": "Envi_2040-1::Policy commitment",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Policy commitment]\nAt Coforge, we recognize the criticality of being a responsible business and believe in creating value for its\nemployees, extended workforce, shareholders, investors, vendors, suppliers, customers, and other stakeholders.\nBeing a responsible company, it is a prerequisite to comply with all applicable legal requirements, but being a\nresponsible and sustainable company, it is imperative to embed the principles of sustainable development in\ncompany’s core business strategy, operational activities and services offered. Coforge is therefore committed to the\nfollowing:\n\nEnsure 100% compliance with all applicable legal and regulatory requirements of the laws of the land,\nwherever it operates in.\n\nEstablish, track, and monitor environmental goals and targets to ensure compliance and performance of the\ncompany with timelines.\n\nDisclose accurate and adequate environmental information based on scientific evidence and data trails for\nstakeholder review of company’s performance.\n\nReduce Coforge’s Greenhouse Gas (GHG) emissions and carbon footprint generated from business operations\nby adopting energy efficient technologies and moving towards renewable energy sources, as applicable.\n\nImplement sustainable waste management practices, based on principle of circularity, i.e., 3Rs (reduce,\nrecycle, and reuse) especially for food, plastic, and other recyclable/ bio-degradable waste to minimize waste\n\nto landfill.\n\nDrive responsible management of water through conservation, harvesting, and recycling of wastewater,\nrespectively for reducing consumption of fresh water and reusing of recycled water within the premises.\n\nEnvironmental awareness training and education for our employees, alongside effective communication with\nemployees and recognition of their initiatives and achievements towards environmental improvement.\n\nUndertake independent environmental auditing, verification, and certification of our operations, practices and\nalong our supply chain, as applicable.\n\nIntegration of ESG/Sustainability compliances and parameters as part of registration, onboarding, review, and\nsupplier development processes for all major suppliers as applicable. Periodic vendor/supplier assessment for\n\n© 2026 Coforge\n\nthe identified critical suppliers will be conducted covering aspects related to environmental and social\ncompliances and performance.\n\nDrive capacity building sessions for our vendors/suppliers to motivate them to adopt environment\nsustainability practices and social responsibility in their business strategy and operations, in accordance with\nCoforge’s Vendor Code of Conduct.\n\nThis Policy clearly defines Coforge’s commitments to carbon neutrality, waste management and water conservation,\nand the incorporation of sustainable practices into our overall business operations. These commitments are managed\nthrough set environmental sustainability targets that are applicable across our company.",
+      "document_name": "Envi_2040-1",
+      "section": "Policy commitment",
+      "chunk_index": 2,
+      "word_count": 381,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 3,
+        "section_name": "Policy commitment",
+        "chunkid": "Envi_2040-1::Policy commitment::0",
+        "start_span": 3147,
+        "end_span": 6110,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Energy Optimization and Emission Management::0",
+      "parent_id": "Envi_2040-1::Energy Optimization and Emission Management",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Energy Optimization and Emission Management]\nWe, at Coforge, are committed to become “Carbon Neutral in our operations by 2040”. In line with this commitment,\nwe have established a sub-target of continuous reduction of GHG emissions by 5% year-on-year, through adoption of\nenergy efficient technologies/solutions, optimization of energy usage, increase share of renewable energy to total\nenergy, and biodiversity conservation initiatives that have a cascading effect on carbon offsets.\n\nWe are making steady progress against our goal of reducing carbon emissions through an integrated approach. Some\n\nof our internal commitments are mentioned below:\n\nProcure 10% of electricity from green sources by 2025 and increase the share to ~50% by 2030. Transition\nto 100% renewable energy by 2050 by committing to the RE100 initiative.\n\nIncrease share of electric vehicles (EVs) in fleet for employee commute to 10% by 2025 and to 50% by 2040.\n\nAt Coforge, we conduct annual checks on our equipment and optimize operational processes to minimize energy\nwastage and optimize energy efficiency. To increase employee awareness, we conduct one mandatory and two\nvoluntary training sessions annually, empowering them with adequate knowledge and skills on energy-saving\npractices and emission management strategies.",
+      "document_name": "Envi_2040-1",
+      "section": "Energy Optimization and Emission Management",
+      "chunk_index": 3,
+      "word_count": 193,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 4,
+        "section_name": "Energy Optimization and Emission Management",
+        "chunkid": "Envi_2040-1::Energy Optimization and Emission Management::0",
+        "start_span": 6165,
+        "end_span": 7429,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Waste Management and Circularity::0",
+      "parent_id": "Envi_2040-1::Waste Management and Circularity",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Waste Management and Circularity]\nCoforge has committed to become “Zero Waste by 2040” by creating an effective waste management ecosystem by\nadopting the following sub-targets:\n\nThe ‘Zero Food Waste’ commitment at Coforge is achieved through diversion of food waste to composting\npractices and feed to livestock to minimize waste to landfill.\n\nThe ‘Zero Plastic Waste’ commitment at Coforge is reinforced by eliminating the use of single-use plastic on\nour premises and responsible disposal of plastics as per local laws and mandates, i.e., through authorized\n\nvendors.\n\nThe ‘Zero Waste to Landfill’ initiative at Coforge is supported by our Scrap/E-Waste Disposal Policy,\nresponsible and scientific disposal of hazardous waste generated and proper recycling of non-food waste\nthrough authorized recycler vendors.\n\nWe, at Coforge, are committed to improve resource use through the implementation of the Scrap/E-waste disposal\npolicy, which aims to reuse and recycle the electronic waste generated by our business operations in a responsible\nmanner. Through this initiative, the concept of circular economy, i.e., maximizing the reuse and recyclability of\nelectronic equipment, is promoted, thereby minimizing negative environmental footprint. In addition, we collaborate\nwith our vendors/suppliers to drive environmental sustainability commitments by prioritizing on minimizing packaging\nmaterial consumption and wastage by adopting alternative green solutions/sustainable practices. Coforge commits to\nimplement a comprehensive digital solution for fleet management and Accounts Payable workflow for invoice\nmanagement process which, in turn, drives a paperless work environment in the operations.\n\n© 2026 Coforge",
+      "document_name": "Envi_2040-1",
+      "section": "Waste Management and Circularity",
+      "chunk_index": 4,
+      "word_count": 239,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 4,
+        "section_name": "Waste Management and Circularity",
+        "chunkid": "Envi_2040-1::Waste Management and Circularity::0",
+        "start_span": 7473,
+        "end_span": 9165,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Water Management::0",
+      "parent_id": "Envi_2040-1::Water Management",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Water Management]\nCoforge has committed to being “Water Positive by 2040”, a mission that is inclusive of the following standalone sub\ntargets:\n\nTo provide clean drinking water to all employees and extended workforce.\n\nEnsure Water Free Sanitation by 2040, supported by recycling of wastewater and implementation of\nsustainable sanitation technologies on our facilities.\n\nTo increase non-potable water usage (irrigation and domestic use) to 75% by 2040 from the baseline of 50%\nin FY2023, by maximizing wastewater treatment and recyclability to reduce dependency on freshwater.\n\nTo enhance the capacity of existing rainwater harvesting systems for all our owned properties, as part of the\ncompany’s water conservation objective.\n\nWe, at Coforge, believe in the sustainable management of water resources across our business operations and\nfacilities, and have developed plans on conservation, harvesting, and recycling of water. Since awareness on water\nconservation practices and innovative solutions to maximize water recyclability is of paramount importance for us, we\nperiodically conduct employee capacity building sessions to drive behavioral change.\n\n[Envi_2040-1 > Environmental Management System]\nCoforge is committed to implementing and continuously improving an Environmental Management System (EMS) to\nenhance its environmental performance. The company has obtained ISO 14001 certification, covering 60% of its\noperations Pan India, with a plan to achieve 100% coverage by the end of 2025.\n\n[Envi_2040-1 > Climate Change Adaptation]\nCoforge acknowledges the importance of climate change adaptation and is committed to assessing physical and\ntransition climate-related risks across its office locations. We will develop resilience strategies to help with adaptation\nand ensuring continuity of our operations in a sustainable way.",
+      "document_name": "Envi_2040-1",
+      "section": "Water Management",
+      "chunk_index": 5,
+      "word_count": 261,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 5,
+        "section_name": "Water Management",
+        "chunkid": "Envi_2040-1::Water Management::0",
+        "start_span": 9210,
+        "end_span": 11030,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Decarbonization Strategy::0",
+      "parent_id": "Envi_2040-1::Decarbonization Strategy",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Decarbonization Strategy]\nCoforge plans to develop a decarbonization strategy aligned with the SBTi Net Zero Standard for Scope 1 and Scope\n2 emissions. We are committed to reducing GHG emissions in accordance with the SBTi framework, which includes:\n\nSetting science-based targets to ensure our emissions reduction efforts are aligned with the latest climate\nscience.\n\n- Transparently reporting our progress towards these targets to maintain accountability and build trust with\nour stakeholders.\n\n- Collaborating with stakeholders to meet our climate objectives and drive collective action towards a\nsustainable future.\n\nWe intend to address Scope 3 emissions in the future.",
+      "document_name": "Envi_2040-1",
+      "section": "Decarbonization Strategy",
+      "chunk_index": 6,
+      "word_count": 100,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 5,
+        "section_name": "Decarbonization Strategy",
+        "chunkid": "Envi_2040-1::Decarbonization Strategy::0",
+        "start_span": 11066,
+        "end_span": 11731,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::Monitoring::0",
+      "parent_id": "Envi_2040-1::Monitoring",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > Monitoring]\nThis Environmental Policy will be regularly reviewed and updated as per the requirements of the national and local\nlaws and regulations, as well as in sync with the international commitments on ESG. The periodic review of the Policy\nand the commitments mentioned in the same is entrusted with Coforge’s Environment, Social & Governance (ESG)\nCommittee which convenes on an annual basis, or as and when required, to carry out the exercise. The commitments\nand the targets may be reviewed by the Board on a yearly basis, as per the recommendation of the ESG Committee.\n\nThe EHS function shall track and monitor the progress against the laid down targets on a monthly basis and a\nquarterly trend analysis report, encompassing energy, emissions, waste and water performance, may be submitted to\nthe ESG Committee for their review and recommendations.\n\n© 2026 Coforge\n\n[Envi_2040-1 > Compliance Obligations]\nAll provisions of the Environmental Sustainability Policy are subject to revision in accordance with any modification in\nthe laws and regulations, business strategic decisions, and structural changes at Coforge.\n\nThe ESG Committee reserves the right to modify, add and/or amend any of the provisions of this policy, subject to\napproval by the Board.\n\n**Approved by:**\n\n**John Speight**",
+      "document_name": "Envi_2040-1",
+      "section": "Monitoring",
+      "chunk_index": 7,
+      "word_count": 204,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 5,
+        "section_name": "Monitoring",
+        "chunkid": "Envi_2040-1::Monitoring::0",
+        "start_span": 11753,
+        "end_span": 13056,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Envi_2040-1::President, Executive Director::0",
+      "parent_id": "Envi_2040-1::President, Executive Director",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Envi_2040-1 > President, Executive Director]\n© 2026 Coforge\n\nCoforge is a global digital services and solutions provider,\nthat leverages emerging technologies and deep domain\nexpertise to deliver real-world business impact for its clients.\nA focus on very select industries, a detailed understanding\nof the underlying processes of those industries and\npartnerships with leading platforms provides us a distinct\nperspective. Coforge leads with its product engineering\napproach and leverages Cloud, Data, Integration and\nAutomation technologies to transform client businesses into\nintelligent, high growth enterprises. Coforge’s proprietary\nplatforms power critical business processes across its core\nverticals. The firm has a presence in 21 countries with 26\ndelivery centers across nine countries.\n\nLearn more: www.coforge.com\nFor more information, contact information@coforge.com\n\n© 2026 Coforge © 2026 Coforge. All rights reserved.",
+      "document_name": "Envi_2040-1",
+      "section": "President, Executive Director",
+      "chunk_index": 8,
+      "word_count": 126,
+      "metadata": {
+        "filename": "Envi_2040-1.md",
+        "pagenumber": 6,
+        "section_name": "President, Executive Director",
+        "chunkid": "Envi_2040-1::President, Executive Director::0",
+        "start_span": 13095,
+        "end_span": 14003,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Water Management Policy / Purpose::0",
+      "parent_id": "Water-Management-Policy::Water Management Policy / Purpose",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Water Management Policy]\n**Review Date –** 10 [th] August 2026\n\n© 2026 Coforge\n\n[Water-Management-Policy > Contents]\n© 2026 Coforge\n\n[Water-Management-Policy > Purpose]\nCoforge Limited (hereafter referred to as “Coforge”) is a global digital services and business solutions provider with\nin-depth domain expertise that specializes in selected industry verticals. The company's strategy is rooted in providing\ncapability at scale with a focus on emerging technologies, building partnerships, client centricity, and creating a\nsustainable and responsible world.\n\nWater is a shared and increasingly stressed natural resource that is critical to communities, ecosystems, and the\ncontinuity of Coforge’ s own operations. While Coforge, as an information technology services organization, is not a\nwater-intensive business, the company recognizes its responsibility to manage water use across its facilities and value\nchain in a manner that is efficient, transparent, and protective of shared water resources, particularly in the waterstressed geographies in which several of its campuses and offices are located.\n\nThis Water Policy sets out Coforge's approach to responsible water stewardship. It builds on, and provides greater\nspecificity to, the water-related commitments already articulated in Coforge's Environmental Sustainability Policy,\nincluding the company's ambition to become “Water Positive by 2040”, and establishes the principles, commitments,\nobjectives, targets, and governance mechanisms that will guide Coforge in achieving this ambition. Coforge defines\n“Water Positive” as replenishing more water than is consumed across owned operations through a combination of\nwater conservation, recycling, rainwater harvesting, watershed restoration, and community water stewardship\n\ninitiatives.\n\nThe Policy aims to build trust with stakeholders, strengthen resilience against water-related risks, and ensure that\nCoforge's services and facilities are managed in an environmentally sound and responsible manner.",
+      "document_name": "Water-Management-Policy",
+      "section": "Water Management Policy / Purpose",
+      "chunk_index": 0,
+      "word_count": 272,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 3,
+        "section_name": "Water Management Policy / Purpose",
+        "chunkid": "Water-Management-Policy::Water Management Policy / Purpose::0",
+        "start_span": 54,
+        "end_span": 4094,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Scope::0",
+      "parent_id": "Water-Management-Policy::Scope",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Scope]\nThis Policy applies to all delivery centers of Coforge and to all employees and extended workforce associated with\nthem, across all geographies in which Coforge operates.\n\nCoforge will also extend the applicability of this Policy across its value chain, to whatever extent possible. All thirdparty associates of Coforge, including suppliers, contractors, vendors, and affiliates, are expected and encouraged to\ncomply with the principles of this Policy, in line with Coforge's Sustainable Procurement Policy.\n\nThis Policy is appropriate to the nature and scale of Coforge's operations and reflects the company's commitment to\nfulfilling applicable legal and other water-related obligations, preventing pollution, promoting sustainable water use,\nand achieving continual improvement in water performance.\n\n[Water-Management-Policy > Policy Commitment]\nAt Coforge, we recognize water as a shared and finite resource, and believe in creating value responsibly for our\nemployees, extended workforce, shareholders, investors, vendors, suppliers, customers, and other stakeholders.\nBeing a responsible and sustainable company requires embedding the principles of water stewardship into our core\nbusiness strategy, operational activities, and services offered.\n\nCoforge is therefore committed to the following:\n\n[Water-Management-Policy > Legal and Regulatory Compliance]\n- Ensure 100% compliance with all applicable legal and regulatory requirements relating to water abstraction,\nuse, discharge, and effluent quality, in every jurisdiction in which Coforge operates.\n\nAlign Coforge's water management approach with recognized international frameworks and voluntary\ncommitments, including the UN Sustainable Development Goals, particularly SDG 6 (Clean Water and\nSanitation) and SDG 11 (Sustainable Cities and Communities), and the GRI 303: Water and Effluents\n\nStandard.\n\nDisclose accurate and adequate water-related information based on scientific evidence and verifiable data\ntrails to enable stakeholder review of the company's performance.\n\n© 2026 Coforge",
+      "document_name": "Water-Management-Policy",
+      "section": "Scope",
+      "chunk_index": 1,
+      "word_count": 276,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 3,
+        "section_name": "Scope",
+        "chunkid": "Water-Management-Policy::Scope::0",
+        "start_span": 4111,
+        "end_span": 6136,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Responsible Water Use and Conservation::0",
+      "parent_id": "Water-Management-Policy::Responsible Water Use and Conservation",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Responsible Water Use and Conservation]\nDrive responsible management of water through conservation and efficient use across all delivery centers of\nCoforge, with the objective of reducing freshwater consumption and withdrawal intensity over time.\n\nPrioritize water sourcing based on a hierarchy that favors harvested rainwater, recycled water, and other\nsustainable alternative sources before increasing dependence on freshwater sources wherever feasible.\n\nAdopt water-efficient fixtures, low-flow sanitary fittings, smart water metering, and leak-detection systems to\nminimize water wastage across owned and significant leased premises.\n\nOver the next two years, Coforge will undertake water balance assessments for major facilities to understand\nsources, uses, and losses of water and identify opportunities for reduction and substitution with recycled or\n\nalternative water sources.\n\nCoforge intends to establish and periodically review near-term (3-5 year) and long-term (through 2040) water\nconservation targets, aligned with its broader Environmental Sustainability Policy commitments.\n\n[Water-Management-Policy > Water Recycling, Harvesting and Reuse]\nEnhance the capacity and coverage of rainwater harvesting systems across all Coforge-owned properties, as\npart of the company's water conservation objective.\n\nOperate and maintain Sewage/Effluent Treatment Plants (STPs/ETPs) at applicable owned campuses to treat\nwastewater for reuse in non-potable applications such as flushing, irrigation, landscaping, and HVAC/cooling\n\nsystems.\n\nIncrease the proportion of non-potable water demand met through recycled and treated wastewater,\nreducing dependency on freshwater and municipal supply.\n\n- Ensure Water-Free Sanitation, supported by wastewater recycling and sustainable sanitation technologies, in\nline with Coforge's 2040 ambition.\n\n[Water-Management-Policy > Water Quality and Pollution Prevention]\nPrevent pollution of surface water, groundwater, and other water bodies by adopting a zero-discharge\nphilosophy wherever applicable and technically feasible, and by maintaining water and waste-storage\ninfrastructure to appropriate technical standards.\n\nMonitor and maintain the quality of water used and discharged at Coforge facilities, ensuring adherence to\napplicable regulatory and permit-based discharge standards.\n\nProvide access to clean and safe drinking water to all employees and the extended workforce across Coforge\n\nfacilities.\n\nUndertake independent environmental auditing, verification, and certification of water-related practices at\napplicable facilities.\n\n[Water-Management-Policy > Value Chain and Supplier Engagement]\nEngage proactively with vendors and suppliers to identify and manage water-related risks across the value\nchain, in accordance with Coforge's Sustainable Procurement Policy.\n\n- Integrate ESG and water-stewardship considerations into supplier registration, onboarding, review, and\ndevelopment processes for major suppliers, as applicable.\n\nConduct periodic assessments of identified critical suppliers covering environmental compliance, including\nwater-related practices and performance.\n\nDrive capacity-building sessions for vendors and suppliers to encourage the adoption of water conservation\nand stewardship practices in their own operations.\n\n© 2026 Coforge",
+      "document_name": "Water-Management-Policy",
+      "section": "Responsible Water Use and Conservation",
+      "chunk_index": 2,
+      "word_count": 415,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 4,
+        "section_name": "Responsible Water Use and Conservation",
+        "chunkid": "Water-Management-Policy::Responsible Water Use and Conservation::0",
+        "start_span": 6200,
+        "end_span": 9453,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Community Water Stewardship::0",
+      "parent_id": "Water-Management-Policy::Community Water Stewardship",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Community Water Stewardship]\nRecognize that Coforge's operations affect, and are affected by, water availability in the communities in which\nit is present and engage with these communities on water matters that are important to them, pursuant to\nCoforge's CSR & ESG Policy.\n\n- Support community-level water stewardship initiatives, including wetland restoration and waterbody\nrejuvenation projects. Through partnerships with government agencies and implementation partners, Coforge\nseeks to contribute to wastewater treatment, groundwater recharge, biodiversity enhancement, and improved\nwater quality within local communities. Coforge also intends to conduct water awareness and literacy\n\ninitiatives in the future.\n\n- Collaborate, where relevant, with local authorities, civil society organizations, and industry bodies to advocate\nfor and participate in waterbody restoration projects.\n\n[Water-Management-Policy > Awareness and Capacity Building]\nConduct environmental awareness training and education for employees on water conservation practices and\ninnovative solutions to maximize water recyclability, alongside effective communication and recognition of\nemployee-led initiatives.\n\n- Promote employee awareness on responsible water use and conservation through sustainability\ncommunications, engagement campaigns, and training initiatives as Coforge's water management program\n\nevolves.\n\nCoforge integrates water conservation topics into its employee awareness and sustainability training\n\nprograms.",
+      "document_name": "Water-Management-Policy",
+      "section": "Community Water Stewardship",
+      "chunk_index": 3,
+      "word_count": 188,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 5,
+        "section_name": "Community Water Stewardship",
+        "chunkid": "Water-Management-Policy::Community Water Stewardship::0",
+        "start_span": 9506,
+        "end_span": 10978,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Objectives and Targets::0",
+      "parent_id": "Water-Management-Policy::Objectives and Targets",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Objectives and Targets]\nIn line with this Policy, Coforge reaffirms its 2040 ambition to become “Water Positive” and establishes measurable\nobjectives and targets to guide progress. These targets are managed through Coforge's environmental sustainability\ntarget-setting process and are reviewed periodically by the CSR & ESG Committee.\n\n|Focus Area|Commitment / Target|Target Year|\n|---|---|---|\n|Overarching Goal|Achieve “Water Positive” status across Coforge's owned operations.|2040|\n|Drinking Water Access|Provide clean and safe drinking water to 100% of employees and<br>the extended workforce.|Continuous|\n|Sanitation|Achieve Water-free Sanitation, supported by wastewater recycling<br>and sustainable sanitation technologies.|2040|\n|Non-Potable Water Use|Increase non-potable water usage (irrigation and domestic use)<br>through recycled/treated wastewater.|2040|\n|Rainwater Harvesting|Enhance the capacity of rainwater harvesting systems at all<br>Coforge-owned properties.|Ongoing|\n|Freshwater Intensity|Reduce freshwater consumption intensity (KL per employee / per<br>unit revenue) year-on-year.|Continuous|\n|Water Risk Assessment|Complete water risk assessments for 100% of owned facilities and<br>prioritized leased facilities.|2030|\n|Water Audits|Conduct periodic water audits across major facilities to monitor<br>performance and identify savings.|Annual|\n\n© 2026 Coforge",
+      "document_name": "Water-Management-Policy",
+      "section": "Objectives and Targets",
+      "chunk_index": 4,
+      "word_count": 153,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 5,
+        "section_name": "Objectives and Targets",
+        "chunkid": "Water-Management-Policy::Objectives and Targets::0",
+        "start_span": 11012,
+        "end_span": 12377,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Water Risk Assessment::0",
+      "parent_id": "Water-Management-Policy::Water Risk Assessment",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Water Risk Assessment]\nCoforge recognizes that water-related risk, including physical scarcity, flooding, declining water quality, and\nregulatory change, varies significantly by geography and can affect business continuity, cost of operations, and the\ncommunities in which Coforge's facilities are located:\n\nCoforge will undertake periodic water risk assessments across its facility portfolio, using recognized tools such\nas the WRI Aqueduct Water Risk Atlas or the WWF Water Risk Filter, to identify facilities located in waterstressed or high-risk river basins.\n\nOutcomes of these assessments will inform site-level water management strategies, business continuity\nplanning, and prioritization of conservation, harvesting, and recycling investments.\n\nWater-related physical and transition risks will be considered as part of Coforge's broader climate change\nadaptation and resilience planning, in line with the company's Environmental Sustainability Policy.",
+      "document_name": "Water-Management-Policy",
+      "section": "Water Risk Assessment",
+      "chunk_index": 5,
+      "word_count": 127,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 6,
+        "section_name": "Water Risk Assessment",
+        "chunkid": "Water-Management-Policy::Water Risk Assessment::0",
+        "start_span": 12427,
+        "end_span": 13372,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Governance and Roles & Responsibilities::0",
+      "parent_id": "Water-Management-Policy::Governance and Roles & Responsibilities",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Governance and Roles & Responsibilities]\nEffective governance is central to the successful implementation of this Policy. Responsibilities are distributed across\nthe organization as follows:\n\n|Role|Key Responsibilities|\n|---|---|\n|**Board of Directors**|Provides oversight of Coforge's water-related obligations and supports achievement of<br>company-level water goals on the recommendation of the CSR & ESG Committee.|\n|**CSR & ESG Committee**|Entrusted with periodic review of this Policy and the commitments contained within it,<br>convenes on an annual basis, or as and when required. Reviews quarterly trend analysis<br>on water performance and recommend targets and resource allocation to the Board.|\n|**Facilities/Administration**|• <br>Tracks and monitors progress against water targets periodically; prepares a half-<br>year trend-analysis report encompassing water performance for submission to the<br>CSR & ESG Committee; leads water audits, risk assessments, and improvement<br>plans; maintains applicable permits and water management infrastructure.<br>• <br>Implements water conservation, harvesting, and recycling infrastructure at owned<br>and significant leased facilities; manages day-to-day operation of STPs/ETPs and<br>rainwater harvesting systems.|\n|**Procurement**|Embeds water-stewardship requirements into sourcing, contracts, and supplier<br>engagement, in line with the Supplier Code of Conduct.|\n|**CSR**|Designs and implements community water stewardship and WASH initiatives, in line<br>with Coforge's CSR & ESG Policy.|\n|**Employees and**<br>**Extended Workforce**|Follow water conservation procedures and guidelines; report leaks, non-conformities,<br>and incidents; participate in awareness and training initiatives.|\n|**Contractors and**<br>**Suppliers**|Comply with applicable water-related rules, regulations, and permits at Coforge<br>premises; align with Coforge's Supplier Code of Conduct and water-stewardship<br>expectations.|\n\n© 2026 Coforge",
+      "document_name": "Water-Management-Policy",
+      "section": "Governance and Roles & Responsibilities",
+      "chunk_index": 6,
+      "word_count": 223,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 6,
+        "section_name": "Governance and Roles & Responsibilities",
+        "chunkid": "Water-Management-Policy::Governance and Roles & Responsibilities::0",
+        "start_span": 13423,
+        "end_span": 15378,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::Monitoring, Reporting and Disclosure::0",
+      "parent_id": "Water-Management-Policy::Monitoring, Reporting and Disclosure",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > Monitoring, Reporting and Disclosure]\nThis Water Policy will be regularly reviewed and updated in line with the requirements of national and local laws and\nregulations, as well as evolving international ESG commitments.\n\nThe Facilities/Administration function will track and monitor progress against the targets set out in Section 4\nperiodically.\n\nA quarterly trend analysis report, encompassing water performance alongside energy, emissions, and waste\nperformance, will be submitted to the ESG Committee for review and recommendation, consistent with\nCoforge's existing Environmental Sustainability Policy monitoring cadence.\n\nCoforge's water performance will be disclosed annually through the Sustainability Report, prepared in\nreference to the GRI Standards, and Business Responsibility and Sustainability Report (BRSR) filed pursuant\nto SEBI (Listing Obligations and Disclosure Requirements) Regulations, 2015.\n\nWhere applicable, Coforge's water-related disclosures will be subject to independent third-party assurance,\nconsistent with the assurance approach adopted for the company's broader sustainability reporting.\n\n[Water-Management-Policy > Grievance Mechanism]\nCoforge provides a transparent grievance mechanism that enables employees, extended workforce, and other\nstakeholders to raise concerns relating to water use, water quality, or non-compliance with this Policy. Complaints\nmay be raised through Coforge's established Whistleblower channel or through the applicable local grievance\n\nredressal mechanism.\n\nAll complaints will be handled confidentially, with timely acknowledgment, investigation, and resolution, and in a\nmanner that ensures non-retaliation against the person raising the concern.\n\n[Water-Management-Policy > Alignment with Frameworks and Standards]\nThis Policy supports Coforge's alignment with, and contribution to, the following frameworks and standards:\n\n- ISO 14001:2015 – Environmental Management System.\n\nGRI 303: Water and Effluents – Global Reporting Initiative Sustainability Reporting Standards.\n\n- Business Responsibility and Sustainability Report (BRSR) under SEBI (Listing Obligations and Disclosure\nRequirements) Regulations, 2015.\n\n- United Nations Global Compact CEO Water Mandate (as applicable, on the company's continued commitment\nto responsible water stewardship).\n\n- United Nations Sustainable Development Goals: SDG 6 (Clean Water and Sanitation) and SDG 11 (Sustainable\nCities and Communities).\n\n[Water-Management-Policy > Compliance Obligations]\nAll provisions of this Water Policy are subject to revision in accordance with any modification in applicable laws and\nregulations, business strategic decisions, and structural changes at Coforge Limited.\n\nThe ESG Committee reserves the right to modify, add, and/or amend any of the provisions of this Policy, subject to\napproval by the Board.\n\n**Approved by:**\n\n**John Speight**",
+      "document_name": "Water-Management-Policy",
+      "section": "Monitoring, Reporting and Disclosure",
+      "chunk_index": 7,
+      "word_count": 374,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 7,
+        "section_name": "Monitoring, Reporting and Disclosure",
+        "chunkid": "Water-Management-Policy::Monitoring, Reporting and Disclosure::0",
+        "start_span": 15443,
+        "end_span": 18265,
+        "version": "2"
+      }
+    },
+    {
+      "id": "Water-Management-Policy::President, Executive Director::0",
+      "parent_id": "Water-Management-Policy::President, Executive Director",
+      "child_index": 0,
+      "next_id": null,
+      "text": "[Water-Management-Policy > President, Executive Director]\n© 2026 Coforge\n\nCoforge is a global digital services and solutions provider,\nthat leverages emerging technologies and deep domain\nexpertise to deliver real-world business impact for its clients.\nA focus on very select industries, a detailed understanding\nof the underlying processes of those industries and\npartnerships with leading platforms provides us a distinct\nperspective. Coforge leads with its product engineering\napproach and leverages Cloud, Data, Integration and\nAutomation technologies to transform client businesses into\nintelligent, high growth enterprises. Coforge’s proprietary\nplatforms power critical business processes across its core\nverticals. The firm has a presence in 21 countries with 26\ndelivery centers across nine countries.\n\nLearn more: www.coforge.com\nFor more information, contact information@coforge.com\n\n© 2026 Coforge © 2026 Coforge. All rights reserved.",
+      "document_name": "Water-Management-Policy",
+      "section": "President, Executive Director",
+      "chunk_index": 8,
+      "word_count": 126,
+      "metadata": {
+        "filename": "Water-Management-Policy.md",
+        "pagenumber": 7,
+        "section_name": "President, Executive Director",
+        "chunkid": "Water-Management-Policy::President, Executive Director::0",
+        "start_span": 18304,
+        "end_span": 19212,
+        "version": "2"
+      }
+    }
+  ]
+}
