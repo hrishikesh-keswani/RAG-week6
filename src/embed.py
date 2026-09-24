@@ -50,7 +50,9 @@ def embed_texts(texts: list[str]) -> list[tuple[float, ...]]:
 def embed_chunks(chunks: list[Chunk]) -> list[EmbeddedChunk]:
     """Embed ``chunk.text``, which already includes the document and section prefix."""
     vectors = embed_texts([chunk.text for chunk in chunks])
-    return [EmbeddedChunk(chunk, vector) for chunk, vector in zip(chunks, vectors, strict=True)]
+    if len(vectors) != len(chunks):
+        raise ValueError(f"got {len(vectors)} embeddings for {len(chunks)} chunks")
+    return [EmbeddedChunk(chunk, vector) for chunk, vector in zip(chunks, vectors)]
 
 
 def main() -> None:

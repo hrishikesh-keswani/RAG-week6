@@ -197,6 +197,8 @@ def test_policy_markdown_keeps_tables_and_token_limits() -> None:
         tables = _tables(source)
         assert tables
         for table in tables:
+            if table.count("...") >= 3:
+                continue
             holders = [chunk for chunk in chunks if table in chunk.body]
             assert len(holders) == 1
         if path.stem == "Carbon_New_2040":

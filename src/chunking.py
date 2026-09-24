@@ -7,14 +7,18 @@ so it can be embedded on its own. Chunks from the same section share a
 section_id; section_chunks() returns that whole set for a reranker.
 """
 
+from __future__ import annotations
+
 import re
-from dataclasses import dataclass
+from dataclasses import dataclass, replace
 from pathlib import Path
 
 import tiktoken
 
 MAX_TOKENS = 512
 OVERLAP_RATIO = 0.125
+MIN_BODY_TOKENS = 40
+_SKIP_TITLES = frozenset({"contents"})
 
 _ENCODER = tiktoken.get_encoding("cl100k_base")
 _HEADING = re.compile(r"^(#{1,6})[ \t]+(.+?)\s*$")
@@ -72,6 +76,12 @@ class Chunk:
     text: str
     tokens: int
     table: bool
+    filename: str = ""
+    version: str = "2"
+    section_name: str = ""
+    chunkid: str = ""
+    start_span: int = -1
+    end_span: int = -1
 
 
 def section_chunks(chunks: list[Chunk], section_id: str) -> list[Chunk]:
@@ -83,9 +93,33 @@ def section_chunks(chunks: list[Chunk], section_id: str) -> list[Chunk]:
     return [chunk for chunk in chunks if chunk.section_id == section_id]
 
 
+def _document_version(markdown: str) -> str:
+    """'1' if the document is superseded, otherwise '2'."""
+    head = markdown[:4000]
+    if re.search(r"(?i)\bsuperseded\b", head):
+        return "1"
+    return "2"
+
+
+def _body_span(markdown: str, body: str) -> tuple[int, int]:
+    needle = body.strip()
+    if not needle:
+        return -1, -1
+    start = markdown.find(needle)
+    if start < 0:
+        start = markdown.find(needle[: min(80, len(needle))])
+    if start < 0:
+        return -1, -1
+    return start, start + len(needle)
+
+
 def chunk_file(path: Path) -> list[Chunk]:
     """Read one Markdown file and chunk it. The document id is the file stem."""
-    return chunk_markdown(path.read_text(encoding="utf-8"), document_id=path.stem)
+    return chunk_markdown(
+        path.read_text(encoding="utf-8"),
+        document_id=path.stem,
+        filename=path.name,
+    )
 
 
 def chunk_directory(directory: Path = DATA_MD) -> list[Chunk]:
@@ -96,21 +130,30 @@ def chunk_directory(directory: Path = DATA_MD) -> list[Chunk]:
     return chunks
 
 
-def chunk_markdown(markdown: str, document_id: str) -> list[Chunk]:
+def chunk_markdown(
+    markdown: str,
+    document_id: str,
+    filename: str = "",
+) -> list[Chunk]:
     """Split one Markdown document into chunks.
 
     ``document_id`` is stored on each chunk and used to build ``section_id``.
     The first ``#`` heading becomes the document title in the context prefix.
     """
     markdown = markdown.replace("\r\n", "\n").replace("\r", "\n")
+    filename = filename or f"{document_id}.md"
+    version = _document_version(markdown)
     document_title, sections = _sections(markdown)
     if not document_title:
         document_title = document_id
 
     chunks: list[Chunk] = []
     for section_index, section in enumerate(sections):
+        if section.title.strip().lower() in _SKIP_TITLES:
+            continue
         section_id = f"{document_id}#{section_index}"
         for index, (body, is_table) in enumerate(_section_pieces(section.blocks)):
+            start, end = _body_span(markdown, body)
             chunks.append(
                 Chunk(
                     document_id=document_id,
@@ -122,9 +165,137 @@ def chunk_markdown(markdown: str, document_id: str) -> list[Chunk]:
                     text=f"[Doc: {document_title} | Section: {section.title}] {body}",
                     tokens=count_tokens(body),
                     table=is_table,
+                    filename=filename,
+                    version=version,
+                    section_name=section.title,
+                    chunkid=f"{document_id}::{section.title}::{index}",
+                    start_span=start,
+                    end_span=end,
                 )
             )
-    return chunks
+    return _finalize(chunks, markdown)
+
+
+_POLICY_HINTS = (
+    "policy",
+    "scope",
+    "purpose",
+    "outlook",
+    "commitment",
+    "emission",
+    "water",
+    "waste",
+    "target",
+    "risk",
+    "governance",
+    "monitor",
+    "compliance",
+    "baseline",
+    "initiative",
+    "declaration",
+    "preamble",
+    "climate",
+    "decarbon",
+    "energy",
+    "environmental",
+    "legal",
+    "steward",
+    "grievance",
+    "alignment",
+    "awareness",
+    "recycling",
+    "quality",
+    "value",
+    "contents",
+    "notes",
+    "revenue",
+)
+
+
+def _looks_like_signature(title: str) -> bool:
+    """True for leftover sign-off headings such as a person's name."""
+    words = title.replace(",", " ").split()
+    if not words or len(words) > 4:
+        return False
+    low = title.lower()
+    return not any(hint in low for hint in _POLICY_HINTS)
+
+
+def _prefixed(chunk: Chunk, body: str, section_title: str) -> str:
+    return f"[Doc: {chunk.document_title} | Section: {section_title}] {body}"
+
+
+def _merge_pair(prev: Chunk, nxt: Chunk, markdown: str) -> Chunk:
+    body = f"{prev.body}\n\n{nxt.body}"
+    title = prev.section_title
+    if prev.section_title == "Preamble" and nxt.section_title == "Preamble":
+        title = "Preamble"
+    start = prev.start_span if prev.start_span >= 0 else nxt.start_span
+    end = max(prev.end_span, nxt.end_span)
+    if start >= 0 and nxt.start_span >= 0:
+        start = min(prev.start_span, nxt.start_span)
+    return replace(
+        prev,
+        body=body,
+        text=_prefixed(prev, body, title),
+        tokens=count_tokens(body),
+        table=False,
+        section_title=title,
+        section_name=title,
+        start_span=start,
+        end_span=end,
+    )
+
+
+def _finalize(chunks: list[Chunk], markdown: str) -> list[Chunk]:
+    """Drop TOC, collapse dual preambles, fold tiny leftovers, refresh ids."""
+    merged: list[Chunk] = []
+    for chunk in chunks:
+        if not merged:
+            merged.append(chunk)
+            continue
+        prev = merged[-1]
+        same_doc = prev.document_id == chunk.document_id
+        both_preamble = (
+            same_doc
+            and prev.section_title == "Preamble"
+            and chunk.section_title == "Preamble"
+        )
+        junk = same_doc and _looks_like_signature(chunk.section_title)
+        if both_preamble or junk:
+            combined = _merge_pair(prev, chunk, markdown)
+            if combined.tokens <= MAX_TOKENS or both_preamble:
+                merged[-1] = combined
+                continue
+        merged.append(chunk)
+
+    by_section: dict[str, int] = {}
+    out: list[Chunk] = []
+    section_ord: dict[tuple[str, str], int] = {}
+    next_ord = 0
+    for chunk in merged:
+        key = (chunk.document_id, chunk.section_title)
+        if key not in section_ord:
+            section_ord[key] = next_ord
+            next_ord += 1
+        sid = f"{chunk.document_id}#{section_ord[key]}"
+        idx = by_section.get(sid, 0)
+        by_section[sid] = idx + 1
+        start, end = chunk.start_span, chunk.end_span
+        if start < 0:
+            start, end = _body_span(markdown, chunk.body)
+        out.append(
+            replace(
+                chunk,
+                section_id=sid,
+                index=idx,
+                section_name=chunk.section_title,
+                chunkid=f"{chunk.document_id}::{chunk.section_title}::{idx}",
+                start_span=start,
+                end_span=end,
+            )
+        )
+    return out
 
 
 @dataclass
