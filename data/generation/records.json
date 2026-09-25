@@ -1,0 +1,24 @@
+{
+  "retrieval": {
+    "reranker": "BAAI/bge-reranker-base",
+    "k": 10,
+    "scored_questions": 14,
+    "timed_questions": 15,
+    "mrr": 0.8571,
+    "ndcg": 0.8644,
+    "recall_at_k": 0.9286,
+    "precision": 0.1071,
+    "precision_at_k": 0.1071
+  },
+  "generation": {
+    "model": "qwen",
+    "model_id": "qwen3:8b",
+    "questions": 15,
+    "phrase_coverage": 0.9821,
+    "citation_recall": 0.9286,
+    "required_phrases": 0.9333,
+    "cited_section": 0.9333,
+    "distractor_citation": 0.1,
+    "hard_checks_passed": 11
+  }
+}
