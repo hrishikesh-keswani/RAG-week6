@@ -34,13 +34,14 @@ def test_generate_uses_the_config_model_and_temperature_zero(monkeypatch: pytest
                 "model": "gpt-oss:20b",
                 "prompt": "By which year?",
                 "stream": False,
+                "think": False,
                 "options": {"temperature": 0},
             },
         )
     ]
 
 
-def test_generate_defaults_to_gemma(monkeypatch: pytest.MonkeyPatch) -> None:
+def test_generate_defaults_to_qwen(monkeypatch: pytest.MonkeyPatch) -> None:
     seen: dict[str, str] = {}
 
     def fake_post(url: str, json: dict, timeout: float) -> _Response:
@@ -49,9 +50,9 @@ def test_generate_defaults_to_gemma(monkeypatch: pytest.MonkeyPatch) -> None:
 
     monkeypatch.setattr("src.generate.httpx.post", fake_post)
 
-    assert config.MODEL == "gemma"
+    assert config.MODEL == "qwen"
     assert generate("hello") == "ok"
-    assert seen["model"] == "gemma3:12b"
+    assert seen["model"] == "qwen3:8b"
 
 
 def test_unknown_model_does_not_call_the_server(monkeypatch: pytest.MonkeyPatch) -> None:

@@ -1,27 +1,23 @@
 """Generation evals for the golden question set.
 
-Answers are generated first and written to ``data/generation/answers.json``.
-Evals then read that file and write one row per question to
-``data/generation/evals.json``. The prompt asks the generator to name the
-sections it used, with the same ``section_id`` and ``section_name`` fields
-the gold file stores, and to give a confidence from 0 to 1. Generation
-latency is the wait for that call only.
+``python -m src.eval_generation`` writes answers to
+``data/generation/answers.json``. ``score_answers`` reads that file and
+writes one row per question to ``data/generation/evals.json``. Neither call
+uses a judge. The prompt asks the generator to name the sections it used,
+with the same ``section_id`` and ``section_name`` fields the gold file
+stores, and to give a confidence from 0 to 1. Generation latency is the
+wait for that call only.
 
-DeepEval GEval, judged by ``gptoss`` (``gpt-oss:20b``), scores
-faithfulness, groundedness, and correctness. Temperature is 0. ``top_k``
-and ``top_p`` are left unset. Deterministic scores sit beside the judge:
-phrase coverage, citation recall, distractor citation, token F1 against
-``expected_answer``, and abstain contamination. The two pass/fail checks
-remain: every ``answer_must_include`` phrase is present, and a cited
+Scores are phrase coverage, citation recall, distractor citation, token F1
+against ``expected_answer``, and abstain contamination. The two pass/fail
+checks remain: every ``answer_must_include`` phrase is present, and a cited
 section matches a gold supporting section.
 
-The generator call and the three judge calls each retry up to ``ATTEMPTS``
-times. A question that still fails is stored with ``error`` set, and the
-run continues.
+The generator call retries up to ``ATTEMPTS`` times. A question that still
+fails is stored with ``error`` set, and the run continues.
 """
 
 import json
-import os
 import re
 import time
 from collections import Counter
@@ -29,17 +25,13 @@ from collections.abc import Mapping, Sequence
 from dataclasses import dataclass
 from pathlib import Path
 
-import httpx
-from deepeval.metrics import GEval
-from deepeval.models import DeepEvalBaseLLM
-from deepeval.test_case import LLMTestCase, SingleTurnParams
-
 from src import config
 from src.generate import generate
 from src.retrieve import INITIAL_K, HybridHit, hybrid_search
 from src.vectordb import connect
 
 K = INITIAL_K
+GENERATION_K = 5
 ATTEMPTS = 3
 _DECLINE_TOKENS = frozenset(
     {
@@ -67,8 +59,6 @@ ROOT = Path(__file__).resolve().parents[1]
 GOLD_PATH = ROOT / "data" / "gold" / "policy_rag_golden.json"
 ANSWERS_PATH = ROOT / "data" / "generation" / "answers.json"
 EVALS_PATH = ROOT / "data" / "generation" / "evals.json"
-_DEFAULT_BASE_URL = "http://host.docker.internal:11434"
-_JUDGE_NAMES = ("faithfulness", "groundedness", "correctness")
 
 
 @dataclass(frozen=True)
@@ -90,7 +80,7 @@ class Generation:
 
 @dataclass(frozen=True)
 class QuestionScore:
-    """Judge scores, the model's confidence, latency, and the deterministic scores.
+    """The model's confidence, latency, and the deterministic scores.
 
     ``token_f1``, ``phrase_coverage``, and ``citation_recall`` are ``None``
     when that score does not apply. ``abstain_contamination`` is ``None`` on
@@ -98,9 +88,6 @@ class QuestionScore:
     """
 
     item_id: str
-    faithfulness: float
-    groundedness: float
-    correctness: float
     confidence: float | None
     latency_seconds: float
     required_phrases: bool
@@ -121,9 +108,6 @@ class GenerationEval:
     reported confidence by ``hard_checks_passed``.
     """
 
-    faithfulness: float
-    groundedness: float
-    correctness: float
     confidence: float
     latency_seconds: float
     required_phrases: float
@@ -146,34 +130,58 @@ class GenerationEval:
     confidence_failed_questions: int = 0
 
 
+def prompt_order(hits: Sequence[HybridHit]) -> list[HybridHit]:
+    """Put the highest ranks at the two ends and the lowest in the middle.
+
+    ``hits`` is best-first, the order ``hybrid_search`` returns. The list is
+    reversed, even positions are appended, and odd positions are inserted at
+    the front. For five chunks that places rank 2 first and rank 1 last.
+    """
+    ordered: list[HybridHit] = []
+    for index, hit in enumerate(reversed(tuple(hits))):
+        if index % 2 == 0:
+            ordered.append(hit)
+        else:
+            ordered.insert(0, hit)
+    return ordered
+
+
+def _chunk_lines(hit: HybridHit) -> list[str]:
+    """Labels for one chunk. Version and date are omitted when the source has none."""
+    lines = [
+        f"chunk_id: {hit.chunk_id}",
+        f"section_id: {hit.parent_id}",
+        f"section_name: {hit.section_name}",
+        f"filename: {hit.filename}",
+        f"superseded: {str(hit.superseded).lower()}",
+    ]
+    if hit.version is not None:
+        lines.append(f"version: {hit.version}")
+    if hit.document_date is not None:
+        lines.append(f"document_date: {hit.document_date}")
+        if hit.date_source is not None:
+            lines.append(f"date_source: {hit.date_source}")
+    lines.extend(("body:", hit.body))
+    return lines
+
+
 def generation_prompt(question: str, hits: Sequence[HybridHit]) -> str:
     """Ask for an answer, the sections used, and a confidence."""
-    blocks: list[str] = []
-    for hit in hits:
-        blocks.append(
-            "\n".join(
-                (
-                    f"chunk_id: {hit.chunk_id}",
-                    f"section_id: {hit.parent_id}",
-                    f"section_name: {hit.section_name}",
-                    f"filename: {hit.filename}",
-                    "body:",
-                    hit.body,
-                )
-            )
-        )
+    blocks = ["\n".join(_chunk_lines(hit)) for hit in prompt_order(hits)]
     chunks = "\n\n".join(blocks) if blocks else "(no chunks retrieved)"
     return (
         "Answer the question using only the retrieved chunks. "
         "If they do not contain the answer, say the documents do not say, "
-        "and do not invent a figure or a name.\n"
+        "do not invent a figure or a name, and set sections to [].\n"
+        "When the question says current, answer from chunks with superseded: false. "
+        "When it says superseded or archived, answer from chunks with superseded: true.\n"
         "Name every section you used. Copy section_id and section_name "
-        "exactly as they are written on the chunk. Those are the same "
-        "fields a gold supporting section records.\n"
+        "exactly as they are written on the chunk.\n"
         "Reply with one JSON object and no other text:\n"
         '{"answer": "...", "sections": [{"section_id": "...", "section_name": "..."}], '
         '"confidence": 0.0}\n'
-        "confidence is a number from 0 to 1.\n\n"
+        "confidence is a number from 0 to 1: how sure the answer is supported by the chunks. "
+        "Use 0 when the documents do not say.\n\n"
         f"Question: {question}\n\n"
         f"Chunks:\n{chunks}\n"
     )
@@ -382,136 +390,6 @@ def hard_checks_passed(row: QuestionScore) -> bool:
     return row.abstain_contamination is not True
 
 
-def expected_output(item: Mapping[str, object]) -> str:
-    """Reference text the correctness judge compares against."""
-    if item["abstain"] is True:
-        return (
-            "The documents do not contain the answer. "
-            "A correct reply declines and does not invent a figure or a name."
-        )
-    phrases = item["answer_must_include"]
-    if not isinstance(phrases, list):
-        raise ValueError("answer_must_include must be a list")
-    included = ", ".join(str(phrase) for phrase in phrases)
-    return f"{item['expected_answer']}. The answer must include: {included}."
-
-
-def actual_output(parsed: Generation) -> str:
-    """Answer plus the sections the model named, for the judge."""
-    if not parsed.sections:
-        return parsed.answer
-    lines = [parsed.answer, "", "Sections used:"]
-    for section in parsed.sections:
-        lines.append(f"- {section.section_id}: {section.section_name}")
-    return "\n".join(lines)
-
-
-def context_block(hit: HybridHit) -> str:
-    """One retrieved chunk, labeled the way the gold sections are labeled."""
-    return (
-        f"chunk_id: {hit.chunk_id}\n"
-        f"section_id: {hit.parent_id}\n"
-        f"section_name: {hit.section_name}\n"
-        f"{hit.body}"
-    )
-
-
-class OllamaJudge(DeepEvalBaseLLM):
-    """GEval judge that posts to the host Ollama server over HTTP.
-
-    Same call as the generator: ``POST {OLLAMA_BASE_URL}/api/generate``,
-    stream off, temperature 0. ``top_k`` and ``top_p`` are not sent.
-    ``think`` is off so ``gpt-oss`` writes the score into ``response``.
-    A JSON schema in ``format`` makes that field come back empty, so the
-    schema DeepEval passes is not forwarded.
-    """
-
-    def __init__(self, model_id: str) -> None:
-        self.temperature = 0
-        super().__init__(model_id)
-
-    def load_model(self) -> str:
-        return self.name
-
-    def generate(self, prompt: str, schema: type | None = None) -> str:
-        del schema
-        base_url = os.getenv("OLLAMA_BASE_URL", _DEFAULT_BASE_URL).rstrip("/")
-        response = httpx.post(
-            f"{base_url}/api/generate",
-            json={
-                "model": self.name,
-                "prompt": prompt,
-                "stream": False,
-                "think": False,
-                "options": {"temperature": self.temperature},
-            },
-            timeout=180.0,
-        )
-        response.raise_for_status()
-        return _judge_text(response.json())
-
-    async def a_generate(self, prompt: str, schema: type | None = None) -> str:
-        return self.generate(prompt, schema=schema)
-
-    def get_model_name(self) -> str:
-        return self.name
-
-
-def judge_model() -> OllamaJudge:
-    """GEval judge. The model is ``gptoss``, temperature 0."""
-    return OllamaJudge(config.MODELS["gptoss"])
-
-
-def geval_metrics(model: OllamaJudge | None = None) -> dict[str, GEval]:
-    """Faithfulness, groundedness, and correctness, each a GEval metric."""
-    judge = judge_model() if model is None else model
-    return {
-        "faithfulness": GEval(
-            name="Faithfulness",
-            evaluation_steps=[
-                "Extract the factual claims in the actual output.",
-                "Check each claim against the retrieval context.",
-                "Score lower when a claim contradicts the retrieval context.",
-            ],
-            evaluation_params=[
-                SingleTurnParams.ACTUAL_OUTPUT,
-                SingleTurnParams.RETRIEVAL_CONTEXT,
-            ],
-            model=judge,
-            async_mode=False,
-        ),
-        "groundedness": GEval(
-            name="Groundedness",
-            evaluation_steps=[
-                "Extract the factual claims in the actual output.",
-                "Mark a claim as grounded only when the retrieval context states it.",
-                "Score lower when a claim is not stated in the retrieval context, "
-                "even if it does not contradict that context.",
-            ],
-            evaluation_params=[
-                SingleTurnParams.ACTUAL_OUTPUT,
-                SingleTurnParams.RETRIEVAL_CONTEXT,
-            ],
-            model=judge,
-            async_mode=False,
-        ),
-        "correctness": GEval(
-            name="Correctness",
-            evaluation_steps=[
-                "Compare the facts in the actual output with the expected output.",
-                "Score lower when a fact required by the expected output is missing.",
-                "When the expected output says the documents do not contain the answer, score lower if the actual output states a figure or a name as fact.",
-            ],
-            evaluation_params=[
-                SingleTurnParams.ACTUAL_OUTPUT,
-                SingleTurnParams.EXPECTED_OUTPUT,
-            ],
-            model=judge,
-            async_mode=False,
-        ),
-    }
-
-
 def call_with_retry(fn):
     """Call ``fn`` up to ``ATTEMPTS`` times. The last exception is raised."""
     last: Exception | None = None
@@ -527,13 +405,11 @@ def call_with_retry(fn):
 
 def score_item(
     item: Mapping[str, object],
-    hits: Sequence[HybridHit],
     text: str,
     latency_seconds: float,
-    metrics: Mapping[str, GEval],
 ) -> QuestionScore:
-    """Score one generated reply with the judge and the two checks."""
-    record, row = eval_record(item, hits, text, latency_seconds, metrics)
+    """Score one generated reply with the deterministic checks."""
+    record, row = eval_record(item, text, latency_seconds)
     if row is None:
         raise ValueError(record["error"])
     return row
@@ -541,19 +417,11 @@ def score_item(
 
 def eval_record(
     item: Mapping[str, object],
-    hits: Sequence[HybridHit],
     text: str,
     latency_seconds: float,
-    metrics: Mapping[str, GEval],
 ) -> tuple[dict[str, object], QuestionScore | None]:
-    """Judge one stored answer. A failed metric is retried, then left empty."""
+    """Score one stored answer. A missing id is an error and scores nothing."""
     parsed = parse_generation(text)
-    test_case = LLMTestCase(
-        input=str(item["question"]),
-        actual_output=actual_output(parsed),
-        expected_output=expected_output(item),
-        retrieval_context=[context_block(hit) for hit in hits],
-    )
     item_id = item["id"]
     if not isinstance(item_id, str):
         raise ValueError("id must be a string")
@@ -570,26 +438,8 @@ def eval_record(
         "abstain_contamination": abstain_contamination(parsed.answer, item),
         "error": None,
     }
-    scores: dict[str, float] = {}
-    for name in _JUDGE_NAMES:
-        try:
-            score, reason = _measure(metrics[name], test_case)
-        except Exception as exc:
-            record[name] = None
-            record[f"{name}_reason"] = None
-            message = f"{name}: {exc}"
-            record["error"] = message if record["error"] is None else f"{record['error']}; {message}"
-            continue
-        scores[name] = score
-        record[name] = score
-        record[f"{name}_reason"] = reason
-    if len(scores) != len(_JUDGE_NAMES):
-        return record, None
     row = QuestionScore(
         item_id=item_id,
-        faithfulness=scores["faithfulness"],
-        groundedness=scores["groundedness"],
-        correctness=scores["correctness"],
         confidence=parsed.confidence,
         latency_seconds=latency_seconds,
         required_phrases=bool(record["required_phrases"]),
@@ -603,7 +453,7 @@ def eval_record(
     return record, row
 
 
-def generate_answers(path: Path = ANSWERS_PATH, k: int = K) -> Path:
+def generate_answers(path: Path = ANSWERS_PATH, k: int = GENERATION_K) -> Path:
     """Retrieve and generate every golden answer, then write ``path``."""
     dataset = json.loads(GOLD_PATH.read_text(encoding="utf-8"))
     items: list[dict[str, object]] = []
@@ -651,7 +501,6 @@ def score_answers(answers_path: Path = ANSWERS_PATH, evals_path: Path = EVALS_PA
     stored = json.loads(answers_path.read_text(encoding="utf-8"))
     dataset = json.loads(GOLD_PATH.read_text(encoding="utf-8"))
     gold = {item["id"]: item for item in dataset["items"]}
-    metrics = geval_metrics()
     eval_items: list[dict[str, object]] = []
     scored: list[QuestionScore] = []
     for record in stored["items"]:
@@ -659,13 +508,10 @@ def score_answers(answers_path: Path = ANSWERS_PATH, evals_path: Path = EVALS_PA
         if record.get("error"):
             row_record, row = _failed_eval(record), None
         else:
-            hits = [_hit_from_stored(hit) for hit in record["retrieved"]]
             row_record, row = eval_record(
                 item,
-                hits,
                 str(record["raw"]),
                 float(record["latency_seconds"]),
-                metrics,
             )
         eval_items.append(row_record)
         if row is not None:
@@ -675,7 +521,11 @@ def score_answers(answers_path: Path = ANSWERS_PATH, evals_path: Path = EVALS_PA
             print(f"{record['id']} eval failed: {row_record['error']}")
         _write_json(
             evals_path,
-            {"judge": config.MODELS["gptoss"], "items": eval_items},
+            {
+                "model": stored.get("model"),
+                "model_id": stored.get("model_id"),
+                "items": eval_items,
+            },
         )
     if not scored:
         return None
@@ -705,9 +555,6 @@ def evaluate(rows: Sequence[QuestionScore]) -> GenerationEval:
     passed_mean, passed_count = _average(passed_confidence)
     failed_mean, failed_count = _average(failed_confidence)
     return GenerationEval(
-        faithfulness=sum(row.faithfulness for row in rows) / count,
-        groundedness=sum(row.groundedness for row in rows) / count,
-        correctness=sum(row.correctness for row in rows) / count,
         confidence=sum(confidences) / len(confidences) if confidences else 0.0,
         latency_seconds=sum(row.latency_seconds for row in rows) / count,
         required_phrases=sum(row.required_phrases for row in rows) / count,
@@ -731,7 +578,7 @@ def evaluate(rows: Sequence[QuestionScore]) -> GenerationEval:
     )
 
 
-def run_golden(k: int = K) -> GenerationEval:
+def run_golden(k: int = GENERATION_K) -> GenerationEval:
     """Write every answer, then score that file."""
     generate_answers(k=k)
     result = score_answers()
@@ -753,17 +600,6 @@ def _generate_once(
     return text, time.perf_counter() - started, None
 
 
-def _measure(metric: GEval, test_case: LLMTestCase) -> tuple[float, str]:
-    """Run one judge metric, retrying the model call."""
-
-    def once() -> tuple[float, str]:
-        metric.measure(test_case, _show_indicator=False)
-        reason = getattr(metric, "reason", "")
-        return float(metric.score), "" if reason is None else str(reason)
-
-    return call_with_retry(once)
-
-
 def _failed_eval(record: Mapping[str, object]) -> dict[str, object]:
     """Eval row for an answer that was not generated."""
     row: dict[str, object] = {
@@ -779,9 +615,6 @@ def _failed_eval(record: Mapping[str, object]) -> dict[str, object]:
         "abstain_contamination": None,
         "error": record.get("error"),
     }
-    for name in _JUDGE_NAMES:
-        row[name] = None
-        row[f"{name}_reason"] = None
     return row
 
 
@@ -823,9 +656,7 @@ def _write_json(path: Path, payload: Mapping[str, object]) -> None:
 def _print_row(row: QuestionScore) -> None:
     confidence = "none" if row.confidence is None else f"{row.confidence:.4f}"
     print(
-        f"{row.item_id} faithfulness={row.faithfulness:.4f} "
-        f"groundedness={row.groundedness:.4f} correctness={row.correctness:.4f} "
-        f"confidence={confidence} latency_seconds={row.latency_seconds:.4f} "
+        f"{row.item_id} confidence={confidence} latency_seconds={row.latency_seconds:.4f} "
         f"required_phrases={int(row.required_phrases)} cited_section={int(row.cited_section)} "
         f"token_f1={_format_optional(row.token_f1)} "
         f"phrase_coverage={_format_optional(row.phrase_coverage)} "
@@ -833,29 +664,6 @@ def _print_row(row: QuestionScore) -> None:
         f"distractor_citation={row.distractor_citation:.4f} "
         f"abstain_contamination={row.abstain_contamination}"
     )
-
-
-def _judge_text(payload: Mapping[str, object]) -> str:
-    """Return the score JSON, or raise with the text Ollama actually sent."""
-    response = payload.get("response")
-    thinking = payload.get("thinking")
-    text = response if isinstance(response, str) else ""
-    if "{" not in text and isinstance(thinking, str):
-        text = thinking
-    start = text.find("{")
-    end = text.rfind("}")
-    snippet = text[start : end + 1] if start >= 0 and end > start else ""
-    if not snippet:
-        preview = text.strip().replace("\n", " ")[:180]
-        raise ValueError(
-            f"Ollama returned no JSON score (done_reason={payload.get('done_reason')!s}). {preview}"
-        )
-    try:
-        json.loads(snippet)
-    except json.JSONDecodeError as exc:
-        preview = snippet.replace("\n", " ")[:180]
-        raise ValueError(f"Ollama judge returned invalid JSON ({exc.msg}). {preview}") from exc
-    return snippet
 
 
 def _json_object(text: str) -> dict[str, object] | None:
@@ -966,37 +774,12 @@ def _evidence_quotes(value: object) -> list[str]:
 
 
 def main() -> None:
-    """Write answers.json, then evals.json, and print the means."""
+    """Write answers.json, then score those answers. No judge is called."""
     generate_answers()
+    score_answers()
     print(f"answers: {ANSWERS_PATH}")
-    result = score_answers()
     print(f"evals: {EVALS_PATH}")
-    if result is None:
-        print("no scored questions")
-        return
     print(f"generator: {config.MODEL} ({config.MODELS[config.MODEL]})")
-    print(f"judge: {config.MODELS['gptoss']}")
-    print(f"questions: {result.questions}")
-    print(f"faithfulness: {result.faithfulness:.4f}")
-    print(f"groundedness: {result.groundedness:.4f}")
-    print(f"correctness: {result.correctness:.4f}")
-    print(f"confidence: {result.confidence:.4f} ({result.confidence_questions} reported)")
-    print(f"latency_seconds: {result.latency_seconds:.4f}")
-    print(f"required_phrases: {result.required_phrases:.4f}")
-    print(f"cited_section: {result.cited_section:.4f}")
-    print(f"token_f1: {result.token_f1:.4f} ({result.token_f1_questions} questions)")
-    print(f"phrase_coverage: {result.phrase_coverage:.4f} ({result.phrase_coverage_questions} questions)")
-    print(f"citation_recall: {result.citation_recall:.4f} ({result.citation_recall_questions} questions)")
-    print(f"distractor_citation: {result.distractor_citation:.4f}")
-    print(f"abstain_contamination: {result.abstain_contamination:.4f} ({result.abstain_questions} questions)")
-    print(
-        f"confidence_when_passed: {result.confidence_when_passed:.4f} "
-        f"({result.confidence_passed_questions} questions)"
-    )
-    print(
-        f"confidence_when_failed: {result.confidence_when_failed:.4f} "
-        f"({result.confidence_failed_questions} questions)"
-    )
 
 
 if __name__ == "__main__":

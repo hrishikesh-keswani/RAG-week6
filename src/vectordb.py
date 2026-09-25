@@ -29,7 +29,7 @@ ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_PATH = ROOT / "data" / "chroma"
 SQL_PATH = ROOT / "data" / "chunks.sqlite"
 COLLECTION = "chunks"
-_DEFAULT_MODEL_ID = "embeddinggemma"
+_DEFAULT_MODEL_ID = "mxbai-embed-large"
 
 _MONTHS = {
     "january": 1,
@@ -242,13 +242,14 @@ def replace_index(client: ClientAPI, records: Sequence[ChunkRecord], model_id: s
     _replace_sql(_sql_path(client), records, model_id)
 
 
-def bm25_scores(client: ClientAPI, query: str) -> dict[str, float]:
+def bm25_scores(client: ClientAPI, query: str, superseded: bool | None = None) -> dict[str, float]:
     """Score ``query`` against chunk bodies with FTS5 BM25.
 
     The result maps ``chunk_id`` to a higher-is-better score. FTS5's ``bm25()``
     is negative and lower is better, so the value stored here is ``-bm25()``.
     Alphanumeric tokens are stemmed and combined with OR. A query with none
-    matches nothing. Chunks that do not match are absent.
+    matches nothing. Chunks that do not match are absent. ``superseded`` limits
+    the scores to that document flag when it is set.
     """
     match = _fts_match(query)
     path = _sql_path(client)
@@ -259,15 +260,27 @@ def bm25_scores(client: ClientAPI, query: str) -> dict[str, float]:
         created = _ensure_fts(connection, rebuild=False)
         if created:
             connection.commit()
-        rows = connection.execute(
-            """
-            SELECT c.chunk_id, -bm25(chunks_fts) AS score
-            FROM chunks_fts
-            JOIN chunks AS c ON c.rowid = chunks_fts.rowid
-            WHERE chunks_fts MATCH ?
-            """,
-            (match,),
-        ).fetchall()
+        if superseded is None:
+            rows = connection.execute(
+                """
+                SELECT c.chunk_id, -bm25(chunks_fts) AS score
+                FROM chunks_fts
+                JOIN chunks AS c ON c.rowid = chunks_fts.rowid
+                WHERE chunks_fts MATCH ?
+                """,
+                (match,),
+            ).fetchall()
+        else:
+            rows = connection.execute(
+                """
+                SELECT c.chunk_id, -bm25(chunks_fts) AS score
+                FROM chunks_fts
+                JOIN chunks AS c ON c.rowid = chunks_fts.rowid
+                JOIN documents AS d ON d.document_id = c.document_id
+                WHERE chunks_fts MATCH ? AND d.superseded = ?
+                """,
+                (match, int(superseded)),
+            ).fetchall()
     finally:
         connection.close()
     return {str(chunk_id): float(score) for chunk_id, score in rows}
@@ -295,8 +308,16 @@ def get_chunks(client: ClientAPI, chunk_ids: Sequence[str]) -> list[SearchHit]:
     return hits
 
 
-def search(client: ClientAPI, vector: Sequence[float], k: int = 5) -> list[SearchHit]:
-    """Return the ``k`` nearest chunks by cosine distance."""
+def search(
+    client: ClientAPI,
+    vector: Sequence[float],
+    k: int = 5,
+    superseded: bool | None = None,
+) -> list[SearchHit]:
+    """Return the ``k`` nearest chunks by cosine distance.
+
+    ``superseded`` limits the neighbors to that document flag when it is set.
+    """
     if k < 1:
         raise ValueError("k must be at least 1")
     collection = _open_collection(client)
@@ -306,19 +327,22 @@ def search(client: ClientAPI, vector: Sequence[float], k: int = 5) -> list[Searc
     if stored is None or int(stored) != len(vector):
         found = "missing" if stored is None else stored
         raise ValueError(f"query dimension is {len(vector)} and the index dimension is {found}")
-    result = collection.query(
-        query_embeddings=[list(vector)],
-        n_results=k,
-        include=["documents", "metadatas", "distances"],
-    )
-    ids = result["ids"][0]
-    documents = result["documents"] or [[]]
-    metadatas = result["metadatas"] or [[]]
-    distances = result["distances"] or [[]]
+    query_args: dict[str, object] = {
+        "query_embeddings": [list(vector)],
+        "n_results": k,
+        "include": ["documents", "metadatas", "distances"],
+    }
+    if superseded is not None:
+        query_args["where"] = {"superseded": superseded}
+    result = collection.query(**query_args)
+    ids = result["ids"][0] if result["ids"] else []
+    documents = (result["documents"] or [[]])[0]
+    metadatas = (result["metadatas"] or [[]])[0]
+    distances = (result["distances"] or [[]])[0]
     return [
         _hit(chunk_id, document, metadata, distance)
         for chunk_id, document, metadata, distance in zip(
-            ids, documents[0], metadatas[0], distances[0], strict=True
+            ids, documents, metadatas, distances, strict=True
         )
         if document is not None and metadata is not None and distance is not None
     ]

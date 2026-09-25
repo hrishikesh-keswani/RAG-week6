@@ -106,6 +106,109 @@ def test_cross_encoder_reranks_ahead_of_rrf(
     client.close()
 
 
+def _plans(tmp_path: Path):
+    """A current plan and a superseded plan, both mentioning the carbon target."""
+    current = "# **Current Plan**\n\n## **Net Zero**\n\nNet zero by 2040. carbon target.\n"
+    archived = (
+        "DOCUMENT STATUS: SUPERSEDED\n\n"
+        "# **Old Plan**\n\n"
+        "## **Net Zero**\n\n"
+        "Net zero by 2050. carbon target.\n"
+    )
+    chunks = chunk_markdown(current, "Carbon_New") + chunk_markdown(archived, "Carbon_Old")
+    records = build_records(
+        [EmbeddedChunk(chunk, (1.0, 0.0)) for chunk in chunks],
+        {"Carbon_New": current, "Carbon_Old": archived},
+    )
+    client = connect(tmp_path / "chroma")
+    replace_index(client, records, model_id="embeddinggemma")
+    return client
+
+
+def test_version_question_filters_before_the_reranker(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("src.retrieve.embed_texts", lambda texts: [(1.0, 0.0)])
+    monkeypatch.setattr(
+        "src.retrieve.cross_encoder_scores",
+        lambda query, passages: [1.0 for _passage in passages],
+    )
+    client = _plans(tmp_path)
+
+    current = hybrid_search(client, "What does the current plan say about the carbon target?", k=5)
+    archived = hybrid_search(client, "What does the superseded plan say about the carbon target?", k=5)
+    old_word = hybrid_search(client, "What does the archived plan say about the carbon target?", k=5)
+    either = hybrid_search(client, "What is the carbon target?", k=5)
+    both = hybrid_search(client, "Compare the current and superseded carbon target.", k=5)
+
+    assert current and all(not hit.superseded for hit in current)
+    assert archived and all(hit.superseded for hit in archived)
+    assert old_word and all(hit.superseded for hit in old_word)
+    assert {hit.superseded for hit in either} == {False, True}
+    assert {hit.superseded for hit in both} == {False, True}
+    client.close()
+
+
+def test_version_filter_keeps_the_only_plan(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("src.retrieve.embed_texts", lambda texts: [(1.0, 0.0)])
+    monkeypatch.setattr(
+        "src.retrieve.cross_encoder_scores",
+        lambda query, passages: [1.0 for _passage in passages],
+    )
+    archived = (
+        "DOCUMENT STATUS: SUPERSEDED\n\n"
+        "# **Old Plan**\n\n"
+        "## **Net Zero**\n\n"
+        "Net zero by 2050. carbon target.\n"
+    )
+    chunks = chunk_markdown(archived, "Carbon_Old")
+    records = build_records(
+        [EmbeddedChunk(chunk, (1.0, 0.0)) for chunk in chunks],
+        {"Carbon_Old": archived},
+    )
+    client = connect(tmp_path / "chroma")
+    replace_index(client, records, model_id="embeddinggemma")
+
+    hits = hybrid_search(client, "What does the current plan say about the carbon target?", k=5)
+
+    assert hits
+    assert all(hit.superseded for hit in hits)
+    client.close()
+
+
+def test_current_question_retrieves_past_nearer_old_chunks(
+    tmp_path: Path, monkeypatch: pytest.MonkeyPatch
+) -> None:
+    monkeypatch.setattr("src.retrieve.embed_texts", lambda texts: [(1.0, 0.0)])
+    monkeypatch.setattr(
+        "src.retrieve.cross_encoder_scores",
+        lambda query, passages: [1.0 for _passage in passages],
+    )
+    old_sections = "\n".join(f"## **Old {index}**\n\ncarbon target old {index}.\n" for index in range(10))
+    archived = f"DOCUMENT STATUS: SUPERSEDED\n\n# **Old Plan**\n\n{old_sections}"
+    current_sections = "\n".join(
+        f"## **New {index}**\n\ncarbon target new {index}.\n" for index in range(3)
+    )
+    current = f"# **Current Plan**\n\n{current_sections}"
+    old_chunks = chunk_markdown(archived, "Carbon_Old")
+    new_chunks = chunk_markdown(current, "Carbon_New")
+    records = build_records(
+        [EmbeddedChunk(chunk, (1.0, 0.0)) for chunk in old_chunks]
+        + [EmbeddedChunk(chunk, (0.0, 1.0)) for chunk in new_chunks],
+        {"Carbon_Old": archived, "Carbon_New": current},
+    )
+    client = connect(tmp_path / "chroma")
+    replace_index(client, records, model_id="embeddinggemma")
+
+    hits = hybrid_search(client, "What is the current carbon target?", k=5)
+
+    assert len(hits) == len(new_chunks)
+    assert all(not hit.superseded for hit in hits)
+    client.close()
+
+
 def test_initial_retrieval_keeps_ten_from_each_list(
     tmp_path: Path, monkeypatch: pytest.MonkeyPatch
 ) -> None:

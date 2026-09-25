@@ -14,11 +14,10 @@ from src.eval_generation import (
     cited_section,
     distractor_citation,
     evaluate,
-    expected_output,
+    GENERATION_K,
     generate_answers,
-    geval_metrics,
-    judge_model,
     generation_prompt,
+    prompt_order,
     hard_checks_passed,
     parse_generation,
     phrase_coverage,
@@ -34,6 +33,10 @@ def _hit(
     section_id: str = "Carbon_New_2040#1",
     name: str = "Commitment to Achieving Net Zero",
     body: str = "Net Zero emission by 2040.",
+    document_date: str | None = None,
+    date_source: str | None = None,
+    version: str | None = None,
+    superseded: bool = False,
 ) -> HybridHit:
     return HybridHit(
         chunk_id=f"{section_id}:0",
@@ -44,10 +47,10 @@ def _hit(
         parent_id=section_id,
         start_span=0,
         end_span=10,
-        document_date=None,
-        date_source=None,
-        version=None,
-        superseded=False,
+        document_date=document_date,
+        date_source=date_source,
+        version=version,
+        superseded=superseded,
         body=body,
         score=1.0,
         rrf_score=0.1,
@@ -86,16 +89,6 @@ def _cited(section_id: str, section_name: str = "") -> Generation:
     )
 
 
-class _Metric:
-    def __init__(self, score: float) -> None:
-        self.score = score
-        self.case = None
-
-    def measure(self, test_case: object, _show_indicator: bool = True) -> float:
-        self.case = test_case
-        return self.score
-
-
 def test_prompt_asks_for_the_gold_section_fields() -> None:
     prompt = generation_prompt("By which year?", [_hit()])
 
@@ -106,6 +99,37 @@ def test_prompt_asks_for_the_gold_section_fields() -> None:
     assert '"section_name"' in prompt
     assert "confidence" in prompt
     assert "Question: By which year?" in prompt
+    assert "superseded: false" in prompt
+    assert "set sections to []" in prompt
+    assert "gold supporting" not in prompt
+    assert "version:" not in prompt
+    assert "document_date:" not in prompt
+
+    labeled = generation_prompt(
+        "What does the archived plan say?",
+        [
+            _hit(
+                section_id="Carbon_Old_2050#2",
+                document_date="2023-03-12",
+                date_source="publication",
+                version="1.0",
+                superseded=True,
+            )
+        ],
+    )
+    assert "superseded: true" in labeled
+    assert "version: 1.0" in labeled
+    assert "document_date: 2023-03-12" in labeled
+    assert "date_source: publication" in labeled
+
+
+def test_prompt_puts_the_best_chunks_at_the_ends() -> None:
+    hits = [_hit(section_id=f"Doc#{rank}", name=f"Rank {rank}", body=f"body {rank}") for rank in range(1, 6)]
+
+    assert [hit.parent_id for hit in prompt_order(hits)] == ["Doc#2", "Doc#4", "Doc#5", "Doc#3", "Doc#1"]
+    prompt = generation_prompt("By which year?", hits)
+    assert prompt.index("body 2") < prompt.index("body 5") < prompt.index("body 1")
+    assert GENERATION_K == 5
 
 
 def test_parse_generation_reads_sections_and_confidence() -> None:
@@ -199,12 +223,6 @@ def test_abstain_matches_only_when_nothing_is_cited() -> None:
     assert not cited_section(_cited("Envi_2040-1#13", "John Speight"), item)
 
 
-def test_expected_output_for_an_abstain_declines() -> None:
-    text = expected_output(_item(abstain=True, expected_answer=None, answer_must_include=[]))
-
-    assert "do not contain the answer" in text
-
-
 def test_token_f1_is_word_overlap() -> None:
     assert token_f1("Version 1.0", "1.0") == pytest.approx(0.8)
     assert token_f1("about 50% by 2030", "about 25% by 2030") == pytest.approx(0.75)
@@ -274,13 +292,10 @@ def test_abstain_contamination_flags_an_added_figure_or_name() -> None:
 
 def test_evaluate_averages_scores_and_reported_confidence() -> None:
     assert K == INITIAL_K == 10
-    first = QuestionScore("gold-001", 1.0, 0.5, 1.0, 0.25, 1.0, True, True)
-    second = QuestionScore("gold-002", 0.0, 0.5, 0.0, None, 3.0, False, False)
+    first = QuestionScore("gold-001", 0.25, 1.0, True, True)
+    second = QuestionScore("gold-002", None, 3.0, False, False)
     result = evaluate([first, second])
 
-    assert result.faithfulness == pytest.approx(0.5)
-    assert result.groundedness == pytest.approx(0.5)
-    assert result.correctness == pytest.approx(0.5)
     assert result.confidence == pytest.approx(0.25)
     assert result.confidence_questions == 1
     assert result.latency_seconds == pytest.approx(2.0)
@@ -292,9 +307,6 @@ def test_evaluate_averages_scores_and_reported_confidence() -> None:
 def test_evaluate_splits_confidence_by_the_hard_checks() -> None:
     passed = QuestionScore(
         "gold-001",
-        1.0,
-        1.0,
-        1.0,
         0.4,
         1.0,
         True,
@@ -307,9 +319,6 @@ def test_evaluate_splits_confidence_by_the_hard_checks() -> None:
     )
     failed = QuestionScore(
         "gold-022",
-        0.5,
-        1.0,
-        0.6,
         0.9,
         2.0,
         True,
@@ -340,93 +349,14 @@ def test_empty_eval_raises() -> None:
         evaluate([])
 
 
-class _Response:
-    def __init__(self, payload: dict) -> None:
-        self._payload = payload
-
-    def raise_for_status(self) -> None:
-        return None
-
-    def json(self) -> dict:
-        return self._payload
-
-
-def test_judge_posts_to_the_host_ollama_server(monkeypatch: pytest.MonkeyPatch) -> None:
-    monkeypatch.delenv("OLLAMA_BASE_URL", raising=False)
-    calls: list[tuple[str, dict]] = []
-
-    def fake_post(url: str, json: dict, timeout: float) -> _Response:
-        calls.append((url, json))
-        return _Response({"response": '{"score": 8, "reason": "supported"}'})
-
-    monkeypatch.setattr("src.eval_generation.httpx.post", fake_post)
-    from pydantic import BaseModel
-
-    class _Score(BaseModel):
-        score: int
-        reason: str
-
-    text = judge_model().generate("Score this.", schema=_Score)
-
-    assert text == '{"score": 8, "reason": "supported"}'
-    url, body = calls[0]
-    assert url == "http://host.docker.internal:11434/api/generate"
-    assert body["model"] == "gpt-oss:20b"
-    assert body["stream"] is False
-    assert body["think"] is False
-    assert body["options"] == {"temperature": 0}
-    assert body["prompt"] == "Score this."
-    assert "format" not in body
-    assert "top_k" not in body["options"]
-    assert "top_p" not in body["options"]
-
-
-def test_judge_reads_json_from_thinking_when_response_is_empty(monkeypatch: pytest.MonkeyPatch) -> None:
-    def fake_post(url: str, json: dict, timeout: float) -> _Response:
-        return _Response({"response": "", "thinking": 'notes {"score": 1, "reason": "no"} tail', "done_reason": "stop"})
-
-    monkeypatch.setattr("src.eval_generation.httpx.post", fake_post)
-
-    assert judge_model().generate("Score this.") == '{"score": 1, "reason": "no"}'
-
-
-def test_judge_reports_an_empty_reply(monkeypatch: pytest.MonkeyPatch) -> None:
-    def fake_post(url: str, json: dict, timeout: float) -> _Response:
-        return _Response({"response": "", "thinking": "", "done_reason": "stop"})
-
-    monkeypatch.setattr("src.eval_generation.httpx.post", fake_post)
-
-    with pytest.raises(ValueError, match="done_reason=stop"):
-        judge_model().generate("Score this.")
-
-
-def test_judge_is_gptoss_at_temperature_zero() -> None:
-    metrics = geval_metrics()
-
-    assert set(metrics) == {"faithfulness", "groundedness", "correctness"}
-    for metric in metrics.values():
-        assert metric.model.name == "gpt-oss:20b"
-        assert metric.model.temperature == 0
-        assert metric.evaluation_steps
-        assert metric.async_mode is False
-
-
-def test_score_item_logs_the_judge_and_the_checks() -> None:
-    metrics = {
-        "faithfulness": _Metric(0.2),
-        "groundedness": _Metric(0.4),
-        "correctness": _Metric(0.6),
-    }
+def test_score_item_records_the_checks() -> None:
     text = (
         '{"answer": "2040", "sections": '
         '[{"section_id": "Carbon_New_2040#1", "section_name": "Commitment to Achieving Net Zero"}], '
         '"confidence": 0.7}'
     )
-    row = score_item(_item(), [_hit()], text, 1.5, metrics)
+    row = score_item(_item(), text, 1.5)
 
-    assert row.faithfulness == pytest.approx(0.2)
-    assert row.groundedness == pytest.approx(0.4)
-    assert row.correctness == pytest.approx(0.6)
     assert row.confidence == pytest.approx(0.7)
     assert row.latency_seconds == pytest.approx(1.5)
     assert row.required_phrases
@@ -436,10 +366,6 @@ def test_score_item_logs_the_judge_and_the_checks() -> None:
     assert row.citation_recall == pytest.approx(1.0)
     assert row.distractor_citation == pytest.approx(0.0)
     assert row.abstain_contamination is None
-    case = metrics["correctness"].case
-    assert case.expected_output.startswith("2040")
-    assert "section_id: Carbon_New_2040#1" in case.retrieval_context[0]
-    assert "Sections used:" in case.actual_output
 
 
 def test_retry_runs_three_times_then_raises() -> None:
@@ -504,21 +430,12 @@ def test_answers_are_written_before_evals(tmp_path, monkeypatch: pytest.MonkeyPa
         raise AssertionError("evals must not generate")
 
     monkeypatch.setattr("src.eval_generation.generate", fail_generate)
-    monkeypatch.setattr(
-        "src.eval_generation.geval_metrics",
-        lambda model=None: {
-            "faithfulness": _Metric(0.2),
-            "groundedness": _Metric(0.4),
-            "correctness": _Metric(0.6),
-        },
-    )
     evals = tmp_path / "evals.json"
     result = score_answers(answers, evals)
     saved = json.loads(evals.read_text(encoding="utf-8"))
 
     assert result is not None
-    assert result.faithfulness == pytest.approx(0.2)
-    assert saved["judge"] == "gpt-oss:20b"
-    assert saved["items"][0]["correctness"] == pytest.approx(0.6)
+    assert "judge" not in saved
     assert saved["items"][0]["required_phrases"] is True
     assert saved["items"][0]["cited_section"] is True
+    assert saved["items"][0]["token_f1"] == pytest.approx(1.0)

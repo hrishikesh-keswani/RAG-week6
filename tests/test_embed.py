@@ -30,7 +30,7 @@ def test_embed_texts_posts_to_the_host_ollama_server(monkeypatch: pytest.MonkeyP
     assert calls == [
         (
             "http://host.docker.internal:11434/api/embed",
-            {"model": "embeddinggemma", "input": ["alpha", "beta"]},
+            {"model": "mxbai-embed-large", "input": ["alpha", "beta"]},
         )
     ]
 

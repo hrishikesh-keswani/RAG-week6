@@ -32,7 +32,23 @@ def test_golden_dataset_matches_chunk_sections() -> None:
     grouped = _chunks()
     items = dataset["items"]
     assert dataset["schema_version"] == "1.0.0"
-    assert [item["id"] for item in items] == [f"gold-{index:03d}" for index in range(1, len(items) + 1)]
+    assert [item["id"] for item in items] == [
+        "gold-001",
+        "gold-002",
+        "gold-004",
+        "gold-016",
+        "gold-018",
+        "gold-019",
+        "gold-021",
+        "gold-022",
+        "gold-025",
+        "gold-026",
+        "gold-029",
+        "gold-036",
+        "gold-037",
+        "gold-043",
+        "gold-049",
+    ]
     assert set(item["question_type"] for item in items) == set(dataset["question_types"])
 
     for item in items:

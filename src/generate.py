@@ -19,8 +19,9 @@ TEMPERATURE = 0
 def generate(prompt: str) -> str:
     """Send ``prompt`` to the model named by ``config.MODEL``.
 
-    Posts ``POST {OLLAMA_BASE_URL}/api/generate`` with ``stream`` off and
-    ``options.temperature`` set to 0. Returns the ``response`` text.
+    Posts ``POST {OLLAMA_BASE_URL}/api/generate`` with ``stream`` off,
+    ``think`` off, and ``options.temperature`` set to 0. Returns the
+    ``response`` text.
     """
     try:
         model_id = config.MODELS[config.MODEL]
@@ -35,6 +36,7 @@ def generate(prompt: str) -> str:
             "model": model_id,
             "prompt": prompt,
             "stream": False,
+            "think": False,
             "options": {"temperature": TEMPERATURE},
         },
         timeout=180.0,

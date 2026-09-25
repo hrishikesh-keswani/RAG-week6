@@ -1,5 +1,11 @@
 """Hybrid retrieval: ten dense neighbors, ten BM25 hits, then RRF and a cross-encoder.
 
+When the question names only the current plan, dense search and BM25 run on
+chunks that are not superseded. When it names only the superseded or archived
+plan, they run on superseded chunks. A question that says both, or neither,
+searches every chunk. If the restricted search finds nothing, it is run again
+with no version condition.
+
 Dense search and BM25 each contribute at most ``INITIAL_K`` chunks. Reciprocal
 rank fusion uses the usual constant of 60, with ranks starting at 1:
 
@@ -11,6 +17,7 @@ are returned. ``score`` is the cross-encoder score.
 """
 
 import os
+import re
 from collections.abc import Sequence
 from dataclasses import dataclass
 
@@ -23,7 +30,9 @@ from src.vectordb import COLLECTION, SearchHit, bm25_scores, get_chunks, search
 
 INITIAL_K = 10
 RRF_K = 60
-_DEFAULT_RERANK_MODEL = "Xenova/ms-marco-MiniLM-L-6-v2"
+_DEFAULT_RERANK_MODEL = "BAAI/bge-reranker-base"
+_CURRENT = re.compile(r"\bcurrent\b", re.IGNORECASE)
+_ARCHIVED = re.compile(r"\b(?:superseded|archived)\b", re.IGNORECASE)
 _cross_encoder_model: TextCrossEncoder | None = None
 
 
@@ -61,9 +70,12 @@ def hybrid_search(client: ClientAPI, query: str, k: int = 5) -> list[HybridHit]:
         return []
 
     vector = embed_texts([query])[0]
-    dense_hits = search(client, vector, k=min(INITIAL_K, count))
-    sparse_ids = _top_ids(bm25_scores(client, query), INITIAL_K)
+    superseded = _wanted_superseded(query)
+    dense_hits, sparse_ids = _retrieve(client, vector, query, count, superseded)
     fused = reciprocal_rank_fusion([hit.chunk_id for hit in dense_hits], sparse_ids)
+    if superseded is not None and not fused:
+        dense_hits, sparse_ids = _retrieve(client, vector, query, count, None)
+        fused = reciprocal_rank_fusion([hit.chunk_id for hit in dense_hits], sparse_ids)
     by_id = {hit.chunk_id: hit for hit in dense_hits}
     missing = [chunk_id for chunk_id in fused if chunk_id not in by_id]
     for hit in get_chunks(client, missing):
@@ -89,6 +101,29 @@ def hybrid_search(client: ClientAPI, query: str, k: int = 5) -> list[HybridHit]:
     ]
 
 
+def _wanted_superseded(query: str) -> bool | None:
+    """The plan to search, or None when the question does not name one plan."""
+    wants_current = _CURRENT.search(query) is not None
+    wants_archived = _ARCHIVED.search(query) is not None
+    if wants_current == wants_archived:
+        return None
+    return wants_archived
+
+
+def _retrieve(
+    client: ClientAPI,
+    vector: tuple[float, ...],
+    query: str,
+    count: int,
+    superseded: bool | None,
+) -> tuple[list[SearchHit], list[str]]:
+    """Ten dense neighbors and ten BM25 ids, limited to ``superseded`` when set."""
+    limit = min(INITIAL_K, count)
+    dense_hits = search(client, vector, k=limit, superseded=superseded)
+    sparse_ids = _top_ids(bm25_scores(client, query, superseded=superseded), INITIAL_K)
+    return dense_hits, sparse_ids
+
+
 def reciprocal_rank_fusion(*rankings: Sequence[str]) -> dict[str, float]:
     """Sum ``1 / (RRF_K + rank)`` across lists. Ranks start at 1."""
     scores: dict[str, float] = {}
@@ -101,7 +136,7 @@ def reciprocal_rank_fusion(*rankings: Sequence[str]) -> dict[str, float]:
 def cross_encoder_scores(query: str, passages: list[str]) -> list[float]:
     """Score each passage against ``query``. The list matches ``passages`` in order.
 
-    The model is ``RERANK_MODEL``, or ``Xenova/ms-marco-MiniLM-L-6-v2``.
+    The model is ``RERANK_MODEL``, or ``BAAI/bge-reranker-base``.
     An empty passage list does not load the model.
     """
     if not passages:

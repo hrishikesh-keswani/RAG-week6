@@ -12,7 +12,7 @@ import httpx
 from src.chunking import Chunk, chunk_directory
 
 _DEFAULT_BASE_URL = "http://host.docker.internal:11434"
-_DEFAULT_MODEL_ID = "embeddinggemma"
+_DEFAULT_MODEL_ID = "mxbai-embed-large"
 
 
 @dataclass(frozen=True)
@@ -27,7 +27,7 @@ def embed_texts(texts: list[str]) -> list[tuple[float, ...]]:
     """Embed each string by posting it to the host Ollama server.
 
     Sends ``POST {OLLAMA_BASE_URL}/api/embed`` with model ``EMBED_MODEL``
-    (``embeddinggemma`` unless overridden). Returns one vector per input,
+    (``mxbai-embed-large`` unless overridden). Returns one vector per input,
     in the same order. An empty list does not call the server.
     """
     if not texts:
